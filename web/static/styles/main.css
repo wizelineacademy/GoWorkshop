@@ -1,0 +1,9 @@
+body {
+	background-color: black;
+	color: #55ff55;
+	font-family: monospace;
+}
+em {
+	display: inline-block;
+	width: 40px;
+}

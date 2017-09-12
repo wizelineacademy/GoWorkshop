@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+package list;
+
+service List {
+	rpc CreateItem(CreateItemRequest) returns (CreateItemResponse) {}
+	rpc GetAllItems(GetAllItemsRequest) returns (GetAllItemsResponse) {}
+	rpc DeleteItem(DeleteItemRequest) returns (DeleteItemResponse) {}
+}
+
+message CreateItemRequest {
+	string message = 1;
+	string userId = 2;
+}
+
+message CreateItemResponse {
+	string message = 1;
+	uint64 code = 2;
+}
+
+message GetAllItemsRequest {}
+
+message GetAllItemsResponse {
+	repeated Item items = 1;
+	uint64 code = 2;
+}
+
+message Item {
+	string id = 1;
+	string message = 2;
+	string userId = 3;
+}
+
+message DeleteItemRequest {
+	string id = 1;
+}
+
+message DeleteItemResponse {
+	string message = 1;
+	uint64 code = 2;
+}

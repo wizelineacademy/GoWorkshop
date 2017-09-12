@@ -1,0 +1,17 @@
+{{define "base"}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>{{ .Title }}</title>
+	<link type="text/css" rel="stylesheet" href="/styles/main.css"/>
+</head>
+
+<body>
+<div class="page-wrapper">
+	{{template "body" . }}
+</div>
+
+</body>
+
+</html>
+{{end}}
