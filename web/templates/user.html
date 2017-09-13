@@ -1,0 +1,35 @@
+{{define "body"}}
+{{ if .Data.Error }}
+	<div class="alert alert-danger" role="alert">
+		{{ .Data.Error }}
+	</div>
+{{end}}
+{{ if .Data.ID }}
+	<div class="alert alert-primary" role="alert">
+		User ID: {{ .Data.ID }}
+	</div>
+
+	<form method="POST" style="margin-bottom: 20px;">
+		<div class="row">
+			<div class="col-4">
+				<input name="item_message" type="text" class="form-control" placeholder="Your TODO idea ..." required>
+			</div>
+			<div class="col">
+				<button type="submit" class="btn btn-primary">Add</button>
+			</div>
+		</div>
+	</form>
+{{end}}
+{{ if .Data.Resp }}
+	<ul class="list-group">
+		{{ range .Data.Resp.Items}}
+		<li class="list-group-item">{{ .Message }}
+			<form method="POST" style="float: right;">
+				<input type="hidden" name="delete_id" value="{{ .Id }}">
+				<button type="submit" class="btn btn-danger btn-sm">Delete</button>
+			</form>
+		</li>
+		{{end}}
+	</ul>
+{{end}}
+{{end}}

@@ -20,7 +20,7 @@ func (s Data) Render(w web.ResponseWriter, r *web.Request) error {
 		return tplErr
 	}
 
-	t := template.Must(template.ParseFiles("templates/"+s.TemplateFile, "templates/layouts/main.html"))
+	t := template.Must(template.ParseFiles("templates/"+s.TemplateFile, "templates/layout.html"))
 	err := t.ExecuteTemplate(w, "base", s)
 
 	return err
