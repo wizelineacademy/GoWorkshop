@@ -2,44 +2,80 @@ package web
 
 import (
 	"context"
+	"net/http"
 
 	"github.com/wizelineacademy/GoWorkshop/web/pkg/tpl"
 
 	"github.com/gocraft/web"
+	pbList "github.com/wizelineacademy/GoWorkshop/proto/list"
 	pbUsers "github.com/wizelineacademy/GoWorkshop/proto/users"
 )
 
 func (c *Context) home(w web.ResponseWriter, r *web.Request) {
 	d := tpl.Data{
 		TemplateFile: "pages/home.html",
+		Data: struct {
+			Error string
+		}{},
 	}
 
 	d.Render(w, r)
 }
 
 func (c *Context) user(w web.ResponseWriter, r *web.Request) {
-	email := r.FormValue("email")
-	name := r.FormValue("name")
+	id := r.PathParams["id"]
 
 	// gRPC call
-	resp, err := c.UsersService.CreateUser(context.Background(), &pbUsers.CreateUserRequest{
-		Email: email,
-		Name:  name,
+	resp, err := c.ListService.GetUserItems(context.Background(), &pbList.GetUserItemsRequest{
+		UserId: id,
 	})
+
+	var errorMsg string
 	if err != nil {
-		resp = &pbUsers.CreateUserResponse{
-			Message: err.Error(),
-		}
+		errorMsg = err.Error()
 	}
 
 	d := tpl.Data{
 		TemplateFile: "pages/user.html",
 		Data: struct {
-			ID       string
-			Response *pbUsers.CreateUserResponse
+			ID    string
+			Error string
+			Resp  *pbList.GetUserItemsResponse
 		}{
-			ID:       resp.GetId(),
-			Response: resp,
+			ID:    id,
+			Error: errorMsg,
+			Resp:  resp,
+		},
+	}
+
+	d.Render(w, r)
+}
+
+func (c *Context) createUser(w web.ResponseWriter, r *web.Request) {
+	email := r.FormValue("email")
+
+	// gRPC call
+	resp, err := c.UsersService.CreateUser(context.Background(), &pbUsers.CreateUserRequest{
+		Email: email,
+	})
+	if err == nil && resp != nil && resp.Code == 200 {
+		http.Redirect(w, r.Request, "/user/"+resp.GetId(), http.StatusFound)
+		return
+	}
+
+	var errorMsg string
+	if err != nil {
+		errorMsg = err.Error()
+	} else if resp != nil {
+		errorMsg = resp.Message
+	}
+
+	d := tpl.Data{
+		TemplateFile: "pages/home.html",
+		Data: struct {
+			Error string
+		}{
+			Error: errorMsg,
 		},
 	}
 

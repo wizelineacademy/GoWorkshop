@@ -16,7 +16,6 @@ type Service struct{}
 // CreateUser implementation
 func (s *Service) CreateUser(ctx context.Context, in *pb.CreateUserRequest) (response *pb.CreateUserResponse, err error) {
 	user := &models.User{
-		Name:  in.Name,
 		Email: in.Email,
 	}
 
@@ -69,7 +68,6 @@ func (s *Service) GetAllUsers(ctx context.Context, in *pb.GetAllUsersRequest) (r
 	for _, user := range users {
 		pbUsers = append(pbUsers, &pb.User{
 			Id:    user.Id.Hex(),
-			Name:  user.Name,
 			Email: user.Email,
 		})
 	}

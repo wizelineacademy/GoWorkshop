@@ -1,11 +1,16 @@
 {{define "body"}}
-{{ if eq .Data.Response.Code 200 }}
-<div class="alert alert-primary" role="alert">
-	User ID: {{ .Data.ID }}
-</div>
+{{ if .Data.Error }}
+	<div class="alert alert-danger" role="alert">
+		{{ .Data.Error }}
+	</div>
 {{else}}
-<div class="alert alert-danger" role="alert">
-	{{ .Data.Response.Message }}
-</div>
+	<div class="alert alert-primary" role="alert">
+		User ID: {{ .Data.ID }}
+	</div>
+	<ul class="list-group">
+		{{ range .Data.Resp.Items}}
+		<li class="list-group-item">{{ .Message }}</li>
+		{{end}}
+	</ul>
 {{end}}
 {{end}}

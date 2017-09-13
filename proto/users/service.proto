@@ -8,7 +8,6 @@ service Users {
 }
 
 message CreateUserRequest {
-	string name = 1;
 	string email = 2;
 }
 
@@ -27,6 +26,5 @@ message GetAllUsersResponse {
 
 message User {
 	string id = 1;
-	string name = 2;
 	string email = 3;
 }

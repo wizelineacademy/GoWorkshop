@@ -8,7 +8,6 @@ import (
 type (
 	User struct {
 		Id    bson.ObjectId `bson:"_id,omitempty" json:"id"`
-		Name  string        `json:"name"`
 		Email string        `json:"email"`
 	}
 	UserRepository struct {
@@ -18,8 +17,8 @@ type (
 
 // Create user
 func (r *UserRepository) Create(user *User) (string, error) {
-	obj_id := bson.NewObjectId()
-	user.Id = obj_id
+	objID := bson.NewObjectId()
+	user.Id = objID
 	err := r.C.Insert(&user)
 	return user.Id.Hex(), err
 }

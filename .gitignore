@@ -4,9 +4,6 @@
 *.so
 *.dylib
 
-# Proto
-*.pb.go
-
 # Test binary, build with `go test -c`
 *.test
 

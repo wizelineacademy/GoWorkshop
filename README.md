@@ -8,11 +8,11 @@ This repository is an example project which demonstrates the use of microservice
 
 The application consists of the following application services:
 
-| Service  | Port  | Description                   | Methods                             |
-|----------|-------|-------------------------------|-------------------------------------|
-| users    | 50000 | Provides users information    | CreateUser, GetAllUsers             |
-| list     | 50001 | Manages items in todo lists   | CreateItem, GetAllItems, DeleteItem |
-| notifier | 50002 | Send email notifications      | Will be implemented during Workshop |
+| Service  | Port  | Description                   | Methods                              |
+|----------|-------|-------------------------------|--------------------------------------|
+| users    | 50000 | Provides users information    | CreateUser, GetAllUsers              |
+| list     | 50001 | Manages items in todo lists   | CreateItem, GetUserItems, DeleteItem |
+| notifier | 50002 | Send email notifications      | Will be implemented during Workshop  |
 
 Client web application is working on [http://127.0.0.1:3000](http://127.0.0.1:3000).
 
@@ -38,21 +38,18 @@ Service should be also added to `docker-compose.yml` and work on port 50002.
 docker-compose up -d
 ```
 
+Go to [http://127.0.0.1:3000](http://127.0.0.1:3000) to test gRPC from webapp.
+
 ### Client
 
 Client is built with Go and located in `web`, working on [http://127.0.0.1:3000](http://127.0.0.1:3000).
 
-### How to test gRPC
-
-[omgRPC](https://github.com/troylelandshields/omgrpc) aims to be a GUI client for interacting with gRPC services, similar to what Postman is for REST APIs.
-
- - Install [omgRPC](https://github.com/troylelandshields/omgrpc/releases)
- - Open Protofile (Select `proto/users/service.proto` file to test `users` service)
- - Use `127.0.0.1:50000` address for `users`
-
 ### Generate source code for the gRPC client from .proto files
 
+Service Docker containers generate these files for you, so it isn't necessary to run it locally, however here is instruction for Golang:
+
  - Install [Protocol Buffers](https://github.com/google/protobuf/releases)
+ - Install go plugin: `go get github.com/golang/protobuf/protoc-gen-go`
 
 ```
 protoc --go_out=plugins=grpc:. proto/users/service.proto

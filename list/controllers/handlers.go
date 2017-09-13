@@ -38,8 +38,8 @@ func (s *Service) CreateItem(ctx context.Context, in *pb.CreateItemRequest) (res
 	return response, err
 }
 
-// GetAllItems implementation
-func (s *Service) GetAllItems(ctx context.Context, in *pb.GetAllItemsRequest) (response *pb.GetAllItemsResponse, err error) {
+// GetUserItems implementation
+func (s *Service) GetUserItems(ctx context.Context, in *pb.GetUserItemsRequest) (response *pb.GetUserItemsResponse, err error) {
 	appContext := config.NewContext()
 	defer appContext.Close()
 
@@ -47,7 +47,7 @@ func (s *Service) GetAllItems(ctx context.Context, in *pb.GetAllItemsRequest) (r
 	repo := &models.ListRepository{
 		C: c,
 	}
-	items := repo.GetAll()
+	items := repo.GetAll(in.UserId)
 
 	pbItems := []*pb.Item{}
 	for _, item := range items {
@@ -57,7 +57,7 @@ func (s *Service) GetAllItems(ctx context.Context, in *pb.GetAllItemsRequest) (r
 			UserId:  item.UserId,
 		})
 	}
-	response = &pb.GetAllItemsResponse{
+	response = &pb.GetUserItemsResponse{
 		Items: pbItems,
 		Code:  200,
 	}

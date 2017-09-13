@@ -4,7 +4,7 @@ package list;
 
 service List {
 	rpc CreateItem(CreateItemRequest) returns (CreateItemResponse) {}
-	rpc GetAllItems(GetAllItemsRequest) returns (GetAllItemsResponse) {}
+	rpc GetUserItems(GetUserItemsRequest) returns (GetUserItemsResponse) {}
 	rpc DeleteItem(DeleteItemRequest) returns (DeleteItemResponse) {}
 }
 
@@ -18,9 +18,11 @@ message CreateItemResponse {
 	uint64 code = 2;
 }
 
-message GetAllItemsRequest {}
+message GetUserItemsRequest {
+	string userId = 1;
+}
 
-message GetAllItemsResponse {
+message GetUserItemsResponse {
 	repeated Item items = 1;
 	uint64 code = 2;
 }
