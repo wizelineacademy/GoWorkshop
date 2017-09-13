@@ -19,11 +19,11 @@ type (
 )
 
 // Create item
-func (r *ListRepository) Create(item *Item) error {
+func (r *ListRepository) Create(item *Item) (string, error) {
 	objID := bson.NewObjectId()
 	item.Id = objID
 	err := r.C.Insert(&item)
-	return err
+	return item.Id.Hex(), err
 }
 
 // GetAll items

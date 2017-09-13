@@ -44,5 +44,6 @@ func ListenAndServe() {
 	serveMux := http.NewServeMux()
 	serveMux.Handle("/", r)
 
+	log.Print("[main] webapp started")
 	http.ListenAndServe(":8080", context.ClearHandler(serveMux))
 }

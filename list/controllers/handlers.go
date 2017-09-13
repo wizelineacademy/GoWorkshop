@@ -5,6 +5,7 @@ import (
 	pb "github.com/wizelineacademy/GoWorkshop/proto/list"
 	"github.com/wizelineacademy/GoWorkshop/shared/config"
 	"golang.org/x/net/context"
+	"log"
 )
 
 // Service struct
@@ -24,10 +25,15 @@ func (s *Service) CreateItem(ctx context.Context, in *pb.CreateItemRequest) (res
 	repo := &models.ListRepository{
 		C: c,
 	}
-	err = repo.Create(item)
+
+	var itemID string
+	itemID, err = repo.Create(item)
 
 	response = new(pb.CreateItemResponse)
 	if err == nil {
+		log.Printf("[item.Create] New item ID: %s", itemID)
+
+		response.Id = itemID
 		response.Message = "Item created successfully"
 		response.Code = 200
 	} else {
@@ -77,6 +83,8 @@ func (s *Service) DeleteItem(ctx context.Context, in *pb.DeleteItemRequest) (res
 	err = repo.Delete(in.Id)
 
 	if err == nil {
+		log.Printf("[item.Delete] Deleted item ID: %s", in.Id)
+
 		response = &pb.DeleteItemResponse{
 			Message: "Item deleted successfully",
 			Code:    200,
