@@ -3,15 +3,21 @@
 <html lang="en">
 <head>
 	<title>{{ .Title }}</title>
+	<link type="text/css" rel="stylesheet" href="/styles/bootstrap.min.css"/>
 	<link type="text/css" rel="stylesheet" href="/styles/main.css"/>
 </head>
 
 <body>
-<div class="page-wrapper">
+<div class="container">
+	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+		<a class="navbar-brand" href="/">Microservices with Golang</a>
+	</nav>
+
 	{{template "body" . }}
 </div>
 
 </body>
 
+<script src="/scripts/bootstrap.min.js"></script>
 </html>
 {{end}}

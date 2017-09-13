@@ -15,6 +15,7 @@ message CreateUserRequest {
 message CreateUserResponse {
 	string message = 1;
 	uint64 code = 2;
+	string id = 3;
 }
 
 message GetAllUsersRequest {}

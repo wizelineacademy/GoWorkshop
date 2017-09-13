@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"fmt"
 	"log"
 
 	pbList "github.com/wizelineacademy/GoWorkshop/proto/list"
@@ -44,7 +43,8 @@ func (s *Service) CreateUser(ctx context.Context, in *pb.CreateUserRequest) (res
 			log.Printf("[user.Create] Cannot create item: %v", listErr)
 		}
 
-		response.Message = fmt.Sprintf("User created successfully, ID: %s", userID)
+		response.Message = "User created successfully"
+		response.Id = userID
 		response.Code = 200
 	} else {
 		response.Message = err.Error()

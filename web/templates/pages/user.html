@@ -1,0 +1,11 @@
+{{define "body"}}
+{{ if eq .Data.Response.Code 200 }}
+<div class="alert alert-primary" role="alert">
+	User ID: {{ .Data.ID }}
+</div>
+{{else}}
+<div class="alert alert-danger" role="alert">
+	{{ .Data.Response.Message }}
+</div>
+{{end}}
+{{end}}

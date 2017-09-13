@@ -1,3 +1,18 @@
 {{define "body"}}
-<script src="/scripts/micro.js"></script>
+<div class="row">
+	<div class="col-4"></div>
+	<div class="col-4">
+		<form action="/user" method="POST">
+			<div class="form-group">
+				<input name="email" type="email" class="form-control" placeholder="Email" required>
+				<small class="form-text text-muted">We'll never share your email with anyone else.</small>
+			</div>
+			<div class="form-group">
+				<input name="name" type="text" class="form-control" placeholder="Name" required>
+			</div>
+			<button type="submit" class="btn btn-primary">Create TODO List</button>
+		</form>
+	</div>
+	<div class="col-4"></div>
+</div>
 {{end}}

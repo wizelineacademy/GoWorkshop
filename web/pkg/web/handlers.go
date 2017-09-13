@@ -2,21 +2,36 @@ package web
 
 import (
 	"encoding/json"
+	"log"
 	"net/http"
+
+	"google.golang.org/grpc"
 
 	"github.com/gocraft/web"
 	"github.com/gorilla/context"
+
+	pbUsers "github.com/wizelineacademy/GoWorkshop/proto/users"
 )
 
 // Context struct
-type Context struct{}
+type Context struct {
+	UsersService pbUsers.UsersClient
+}
 
 // ListenAndServe func
 func ListenAndServe() {
+	conn, err := grpc.Dial("users:8080", grpc.WithInsecure())
+	if err != nil {
+		log.Printf("cannot connect to users service: %v", err)
+	}
+
 	ctx := new(Context)
+	ctx.UsersService = pbUsers.NewUsersClient(conn)
 
 	r := web.New(Context{}).
-		Get("/", ctx.home)
+		Get("/", ctx.home).
+		Get("/user", ctx.home).
+		Post("/user", ctx.user)
 
 	serveMux := http.NewServeMux()
 	serveMux.Handle("/", r)
