@@ -10,7 +10,7 @@ The application consists of the following application services:
 
 | Service  | Port  | Description                   | Methods                              |
 |----------|-------|-------------------------------|--------------------------------------|
-| users    | 50000 | Provides users information    | CreateUser, GetAllUsers              |
+| users    | 50000 | Provides users information    | CreateUser                           |
 | list     | 50001 | Manages items in todo lists   | CreateItem, GetUserItems, DeleteItem |
 | notifier | 50002 | Send email notifications      | Will be implemented during Workshop  |
 
@@ -19,13 +19,15 @@ Client web application is working on [http://127.0.0.1:3000](http://127.0.0.1:30
 ### Workshop task
 
  - Create `notifier` service.
- - Call `notifier` from `users` service to send email notification.
+ - Call `notifier` from `users` service to send simple notification to user's email address after account is created by `CreateUser` procedure.
 
 #### Tips
 
-New service needs separate folder, can be copied from `list` and modified later. The best place to start is to define a service using [proto3 language](https://developers.google.com/protocol-buffers/docs/proto3), in `proto/notifier/service.proto`. Then implement handlers in `notifier/controllers/handlers.go`.
+New service needs separate folder, can be copied from `users` or `list` and modified later. The best place to start is to define a service using [proto3 language](https://developers.google.com/protocol-buffers/docs/proto3), in `proto/notifier/service.proto`. Then implement handlers in `notifier/controllers/handlers.go`.
 
-Service should be also added to `docker-compose.yml` and work on port 50002.
+![diagram2](https://github.com/wizelineacademy/GoWorkshop/raw/master/diagram2.png)
+
+Service should be also added to `docker-compose.yml` and work on port 50002 (`ports` option in this file). Use `docker-compose build notifier` to build service image.
 
 ### Requirements
 

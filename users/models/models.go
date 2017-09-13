@@ -22,14 +22,3 @@ func (r *UserRepository) Create(user *User) (string, error) {
 	err := r.C.Insert(&user)
 	return user.Id.Hex(), err
 }
-
-// GetAll users
-func (r *UserRepository) GetAll() []User {
-	var users []User
-	iter := r.C.Find(nil).Iter()
-	result := User{}
-	for iter.Next(&result) {
-		users = append(users, result)
-	}
-	return users
-}

@@ -4,7 +4,6 @@ package users;
 
 service Users {
 	rpc CreateUser(CreateUserRequest) returns (CreateUserResponse) {}
-	rpc GetAllUsers(GetAllUsersRequest) returns (GetAllUsersResponse) {}
 }
 
 message CreateUserRequest {
@@ -15,16 +14,4 @@ message CreateUserResponse {
 	string message = 1;
 	uint64 code = 2;
 	string id = 3;
-}
-
-message GetAllUsersRequest {}
-
-message GetAllUsersResponse {
-	repeated User users = 1;
-	uint64 code = 2;
-}
-
-message User {
-	string id = 1;
-	string email = 3;
 }

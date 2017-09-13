@@ -52,29 +52,3 @@ func (s *Service) CreateUser(ctx context.Context, in *pb.CreateUserRequest) (res
 
 	return response, err
 }
-
-// GetAllUsers implementation
-func (s *Service) GetAllUsers(ctx context.Context, in *pb.GetAllUsersRequest) (response *pb.GetAllUsersResponse, err error) {
-	appContext := config.NewContext()
-	defer appContext.Close()
-
-	c := appContext.DbCollection("users")
-	repo := &models.UserRepository{
-		C: c,
-	}
-	users := repo.GetAll()
-
-	pbUsers := []*pb.User{}
-	for _, user := range users {
-		pbUsers = append(pbUsers, &pb.User{
-			Id:    user.Id.Hex(),
-			Email: user.Email,
-		})
-	}
-	response = &pb.GetAllUsersResponse{
-		Users: pbUsers,
-		Code:  200,
-	}
-
-	return response, err
-}
