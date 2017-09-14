@@ -4,6 +4,8 @@
 
 This repository is an example project which demonstrates the use of microservices for a fictional ToDo list application. The ToDo backend is powered by 3 microservices, all of which happen to be written in Go, using MongoDB for manage the database and Docker to isolate and deploy the ecosystem.
 
+In real world each service should live in a separate repository, so teams can work separately and don't overlap each other, however in this demo project they just located in separate folders for easy use.
+
 ### Services organization
 
 The application consists of the following application services:
