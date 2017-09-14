@@ -4,7 +4,7 @@ services:
     build:
       context: .
       args:
-        service_name: list
+        SRV_NAME: list
     image: pltvs/todo-list
     container_name: todo-list
     entrypoint: /go/bin/list
@@ -21,7 +21,7 @@ services:
     build:
       context: .
       args:
-        service_name: users
+        SRV_NAME: users
     image: pltvs/todo-users
     container_name: todo-users
     entrypoint: /go/bin/users
@@ -38,7 +38,7 @@ services:
     build:
       context: .
       args:
-        service_name: notifier
+        SRV_NAME: notifier
     image: pltvs/todo-notifier
     container_name: todo-notifier
     entrypoint: /go/bin/notifier

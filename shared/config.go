@@ -8,62 +8,34 @@ import (
 
 	"gopkg.in/mgo.v2"
 
-	pbList "github.com/wizelineacademy/GoWorkshop/proto/list"
-	pbNotifier "github.com/wizelineacademy/GoWorkshop/proto/notifier"
+	"github.com/wizelineacademy/GoWorkshop/proto/list"
+	"github.com/wizelineacademy/GoWorkshop/proto/notifier"
 	"google.golang.org/grpc"
 )
 
-// Init bootstrap entry point
 func Init() {
 	initConfig()
 	initServices()
 }
 
-type (
-	configuration struct {
-		Server, ListService, UsersService, NotifierService, MongoDBHost, DBUser, DBPwd, Database, SMTPHost, SMTPPort, SMTPUser, SMTPPass string
-	}
-)
+type configuration struct {
+	Server, ListService, UsersService, NotifierService, MongoDBHost, DBUser, DBPwd, Database, SMTPHost, SMTPPort, SMTPUser, SMTPPass string
+}
 
 var (
-	// AppConfig var
 	AppConfig      configuration
 	mongoSession   *mgo.Session
-	listClient     pbList.ListClient
-	notifierClient pbNotifier.NotifierClient
+	ListClient     list.ListClient
+	NotifierClient notifier.NotifierClient
 )
-
-// Initialize AppConfig
-func initConfig() {
-	file, err := os.Open("../shared/config.json")
-	defer file.Close()
-	if err != nil {
-		log.Fatalf("[loadConfig]: %s\n", err)
-	}
-	decoder := json.NewDecoder(file)
-	AppConfig = configuration{}
-	err = decoder.Decode(&AppConfig)
-	if err != nil {
-		log.Fatalf("[logAppConfig]: %s\n", err)
-	}
-}
 
 // Initialize connection to other services
 func initServices() {
 	connList, _ := grpc.Dial(AppConfig.ListService, grpc.WithInsecure())
-	listClient = pbList.NewListClient(connList)
+	ListClient = list.NewListClient(connList)
 
 	connNotifier, _ := grpc.Dial(AppConfig.NotifierService, grpc.WithInsecure())
-	notifierClient = pbNotifier.NewNotifierClient(connNotifier)
-}
-
-func GetListClient() pbList.ListClient {
-	return listClient
-}
-
-// GetNotifierClient func
-func GetNotifierClient() pbNotifier.NotifierClient {
-	return notifierClient
+	NotifierClient = notifier.NewNotifierClient(connNotifier)
 }
 
 // GetSession returns database mongoSession
@@ -81,4 +53,25 @@ func GetSession() *mgo.Session {
 		}
 	}
 	return mongoSession
+}
+
+// Returns mgo.collection for the given name
+func DbCollection(name string) *mgo.Collection {
+	return GetSession().Copy().DB(AppConfig.Database).C(name)
+}
+
+// Initialize AppConfig
+func initConfig() {
+	file, err := os.Open("../shared/config.json")
+	defer file.Close()
+	if err != nil {
+		log.Fatalf("[loadConfig]: %s\n", err)
+	}
+
+	decoder := json.NewDecoder(file)
+	AppConfig = configuration{}
+	err = decoder.Decode(&AppConfig)
+	if err != nil {
+		log.Fatalf("[logAppConfig]: %s\n", err)
+	}
 }

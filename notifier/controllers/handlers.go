@@ -1,20 +1,21 @@
 package controllers
 
 import (
-	pb "github.com/wizelineacademy/GoWorkshop/proto/notifier"
+	"github.com/wizelineacademy/GoWorkshop/proto/notifier"
 	"github.com/wizelineacademy/GoWorkshop/shared"
 	"golang.org/x/net/context"
+	"log"
 )
 
-// Service struct
 type Service struct{}
 
-// NewUser implementation
-func (s *Service) NewUser(ctx context.Context, in *pb.NewUserRequest) (response *pb.NewUserResponse, err error) {
-	email := in.Email
-	shared.SendEmail(email, "Welcome to Wizeline Golang Workshop!")
+func (s *Service) NewUser(ctx context.Context, in *notifier.NewUserRequest) (*notifier.NewUserResponse, error) {
+	err := shared.SendEmail(in.Email, "Welcome to Wizeline Golang Workshop!")
+	if err != nil {
+		log.Println(err.Error())
+	}
 
-	return &pb.NewUserResponse{
+	return &notifier.NewUserResponse{
 		Message: "OK",
 		Code:    200,
 	}, nil

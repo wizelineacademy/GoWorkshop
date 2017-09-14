@@ -20,10 +20,7 @@ func (s *Service) CreateUser(ctx context.Context, in *pb.CreateUserRequest) (res
 		Email: in.Email,
 	}
 
-	appContext := shared.NewContext()
-	defer appContext.Close()
-
-	c := appContext.DbCollection("users")
+	c := shared.DbCollection("users")
 	repo := &models.UserRepository{
 		C: c,
 	}
@@ -34,8 +31,8 @@ func (s *Service) CreateUser(ctx context.Context, in *pb.CreateUserRequest) (res
 	if err == nil {
 		log.Printf("[user.Create] New user ID: %s", userID)
 
-		createInitialItem(appContext, userID)
-		notify(appContext, in.Email)
+		createInitialItem(userID)
+		notify(in.Email)
 
 		response.Message = "User created successfully"
 		response.Id = userID
@@ -49,8 +46,8 @@ func (s *Service) CreateUser(ctx context.Context, in *pb.CreateUserRequest) (res
 }
 
 // Create initial item in todo list
-func createInitialItem(appContext *shared.Context, userID string) {
-	_, listErr := appContext.ListClient.CreateItem(context.Background(), &pbList.CreateItemRequest{
+func createInitialItem(userID string) {
+	_, listErr := shared.ListClient.CreateItem(context.Background(), &pbList.CreateItemRequest{
 		Message: "Welcome to Workshop!",
 		UserId:  userID,
 	})
@@ -59,8 +56,8 @@ func createInitialItem(appContext *shared.Context, userID string) {
 	}
 }
 
-func notify(appContext *shared.Context, email string) {
-	_, err := appContext.NotifierClient.NewUser(context.Background(), &pbNotifier.NewUserRequest{
+func notify(email string) {
+	_, err := shared.NotifierClient.NewUser(context.Background(), &pbNotifier.NewUserRequest{
 		Email: email,
 	})
 	if err != nil {

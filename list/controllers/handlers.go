@@ -19,10 +19,7 @@ func (s *Service) CreateItem(ctx context.Context, in *pb.CreateItemRequest) (res
 		UserId:  in.UserId,
 	}
 
-	appContext := shared.NewContext()
-	defer appContext.Close()
-
-	c := appContext.DbCollection("list")
+	c := shared.DbCollection("list")
 	repo := &models.ListRepository{
 		C: c,
 	}
@@ -47,10 +44,7 @@ func (s *Service) CreateItem(ctx context.Context, in *pb.CreateItemRequest) (res
 
 // GetUserItems implementation
 func (s *Service) GetUserItems(ctx context.Context, in *pb.GetUserItemsRequest) (response *pb.GetUserItemsResponse, err error) {
-	appContext := shared.NewContext()
-	defer appContext.Close()
-
-	c := appContext.DbCollection("list")
+	c := shared.DbCollection("list")
 	repo := &models.ListRepository{
 		C: c,
 	}
@@ -74,10 +68,7 @@ func (s *Service) GetUserItems(ctx context.Context, in *pb.GetUserItemsRequest) 
 
 // DeleteItem implementation
 func (s *Service) DeleteItem(ctx context.Context, in *pb.DeleteItemRequest) (response *pb.DeleteItemResponse, err error) {
-	appContext := shared.NewContext()
-	defer appContext.Close()
-
-	c := appContext.DbCollection("list")
+	c := shared.DbCollection("list")
 	repo := &models.ListRepository{
 		C: c,
 	}
