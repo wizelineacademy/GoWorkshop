@@ -50,7 +50,7 @@ func (s *Service) CreateUser(ctx context.Context, in *pb.CreateUserRequest) (res
 
 // Create initial item in todo list
 func createInitialItem(appContext *shared.Context, userID string) {
-	_, listErr := appContext.ListService.CreateItem(context.Background(), &pbList.CreateItemRequest{
+	_, listErr := appContext.ListClient.CreateItem(context.Background(), &pbList.CreateItemRequest{
 		Message: "Welcome to Workshop!",
 		UserId:  userID,
 	})
@@ -60,7 +60,7 @@ func createInitialItem(appContext *shared.Context, userID string) {
 }
 
 func notify(appContext *shared.Context, email string) {
-	_, err := appContext.NotifierService.NewUser(context.Background(), &pbNotifier.NewUserRequest{
+	_, err := appContext.NotifierClient.NewUser(context.Background(), &pbNotifier.NewUserRequest{
 		Email: email,
 	})
 	if err != nil {
