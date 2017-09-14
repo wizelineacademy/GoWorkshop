@@ -1,10 +1,10 @@
 version: '3'
 services:
   list:
-    build:
-      context: .
-      args:
-        service_name: list
+    # build:
+    #   context: .
+    #   args:
+    #     service_name: list
     image: pltvs/todo-list
     container_name: todo-list
     entrypoint: /go/bin/list
@@ -18,10 +18,10 @@ services:
       - "50001:8080"
 
   users:
-    build:
-      context: .
-      args:
-        service_name: users
+    # build:
+    #   context: .
+    #   args:
+    #     service_name: users
     image: pltvs/todo-users
     container_name: todo-users
     entrypoint: /go/bin/users
@@ -33,9 +33,9 @@ services:
       - "50000:8080"
 
   web:
-    build:
-      context: .
-      dockerfile: web/Dockerfile
+    # build:
+    #   context: .
+    #   dockerfile: web/Dockerfile
     image: pltvs/todo-web
     container_name: todo-web
     depends_on:
