@@ -1,8 +1,10 @@
-FROM golang:1.8
+FROM golang:1.9
 
-ADD proto /go/src/github.com/wizelineacademy/GoWorkshop/proto
-ADD web /go/src/github.com/wizelineacademy/GoWorkshop/web
-WORKDIR /go/src/github.com/wizelineacademy/GoWorkshop/web
+ENV root_dir /go/src/github.com/wizelineacademy/GoWorkshop
+
+ADD proto $root_dir/proto
+ADD web $root_dir/web
+WORKDIR $root_dir/web
 
 RUN go get github.com/gocraft/web
 RUN go get github.com/gorilla/context

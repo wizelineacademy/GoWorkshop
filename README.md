@@ -53,7 +53,6 @@ Client is built with Go and located in `web`, working on [http://127.0.0.1:3000]
 
 ### Generate source code for the gRPC client from .proto files
 
-Service Docker containers generate these files for you, so it isn't necessary to run it locally, however here is instruction for Golang:
 
  - Install [Go](https://golang.org/dl/)
  - Install [Protocol Buffers](https://github.com/google/protobuf/releases)
@@ -62,4 +61,5 @@ Service Docker containers generate these files for you, so it isn't necessary to
 ```
 protoc --go_out=plugins=grpc:. proto/users/service.proto
 protoc --go_out=plugins=grpc:. proto/list/service.proto
+protoc --go_out=plugins=grpc:. proto/notifier/service.proto
 ```
