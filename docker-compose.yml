@@ -54,5 +54,3 @@ services:
     container_name: todo-db
     logging:
       driver: none
-    ports:
-      - "27017:27017"
