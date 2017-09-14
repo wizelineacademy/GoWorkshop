@@ -33,14 +33,7 @@ func (s *Service) CreateUser(ctx context.Context, in *pb.CreateUserRequest) (res
 	if err == nil {
 		log.Printf("[user.Create] New user ID: %s", userID)
 
-		// Create initial item in todo list
-		_, listErr := appContext.ListService.CreateItem(context.Background(), &pbList.CreateItemRequest{
-			Message: "Welcome to Workshop!",
-			UserId:  userID,
-		})
-		if listErr != nil {
-			log.Printf("[user.Create] Cannot create item: %v", listErr)
-		}
+		createInitialItem(appContext, userID)
 
 		response.Message = "User created successfully"
 		response.Id = userID
@@ -51,4 +44,15 @@ func (s *Service) CreateUser(ctx context.Context, in *pb.CreateUserRequest) (res
 	}
 
 	return
+}
+
+// Create initial item in todo list
+func createInitialItem(appContext *shared.Context, userID string) {
+	_, listErr := appContext.ListService.CreateItem(context.Background(), &pbList.CreateItemRequest{
+		Message: "Welcome to Workshop!",
+		UserId:  userID,
+	})
+	if listErr != nil {
+		log.Printf("[user.Create] Cannot create item: %v", listErr)
+	}
 }
