@@ -6,7 +6,7 @@ import (
 
 	"github.com/wizelineacademy/GoWorkshop/list/controllers"
 	pb "github.com/wizelineacademy/GoWorkshop/proto/list"
-	"github.com/wizelineacademy/GoWorkshop/shared/config"
+	"github.com/wizelineacademy/GoWorkshop/shared"
 	"google.golang.org/grpc"
 )
 
@@ -15,7 +15,7 @@ func main() {
 	lis, _ := net.Listen("tcp", ":8080")
 	log.Print("[main] service started")
 
-	config.Init()
+	shared.Init()
 
 	// grpc server with profiles endpoint
 	srv := grpc.NewServer()

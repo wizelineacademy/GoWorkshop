@@ -5,7 +5,7 @@ import (
 
 	pbList "github.com/wizelineacademy/GoWorkshop/proto/list"
 	pb "github.com/wizelineacademy/GoWorkshop/proto/users"
-	"github.com/wizelineacademy/GoWorkshop/shared/config"
+	"github.com/wizelineacademy/GoWorkshop/shared"
 	"github.com/wizelineacademy/GoWorkshop/users/models"
 	"golang.org/x/net/context"
 )
@@ -19,7 +19,7 @@ func (s *Service) CreateUser(ctx context.Context, in *pb.CreateUserRequest) (res
 		Email: in.Email,
 	}
 
-	appContext := config.NewContext()
+	appContext := shared.NewContext()
 	defer appContext.Close()
 
 	c := appContext.DbCollection("users")
@@ -50,5 +50,5 @@ func (s *Service) CreateUser(ctx context.Context, in *pb.CreateUserRequest) (res
 		response.Code = 500
 	}
 
-	return response, err
+	return
 }

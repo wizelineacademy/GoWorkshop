@@ -1,5 +1,5 @@
 hash: 4c53891c991cd89c4387d49ffc200e3069d26de81aa49a3f507e65369f41ca6a
-updated: 2017-09-14T08:48:39.460205651+07:00
+updated: 2017-09-14T10:15:58.248932574+07:00
 imports:
 - name: github.com/golang/protobuf
   version: 17ce1425424ab154092bbb43af630bd647f3bb0d
@@ -9,14 +9,6 @@ imports:
   - ptypes/any
   - ptypes/duration
   - ptypes/timestamp
-- name: github.com/wizelineacademy/GoWorkshop
-  version: efbe0b60846aeea8999f785af05e082ad63d7a35
-  subpackages:
-  - proto/list
-  - proto/users
-  - shared/config
-  - users/controllers
-  - users/models
 - name: golang.org/x/net
   version: 859d1a86bb617c0c20d154590c3c5d3fcb670b07
   subpackages:

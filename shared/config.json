@@ -6,5 +6,9 @@
   "MongoDBHost"     : "db",
   "MongoDBUser"     : "",
   "MongoDBPwd"      : "",
-  "Database"        : "todo"
+  "Database"        : "todo",
+  "SmtpHost"        : "smtp.gmail.com",
+  "SmtpPort"        : "587",
+  "GmailUser"       : "",
+  "GmailPass"       : ""
 }

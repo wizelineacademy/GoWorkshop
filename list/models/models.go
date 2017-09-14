@@ -27,14 +27,13 @@ func (r *ListRepository) Create(item *Item) (string, error) {
 }
 
 // GetAll items
-func (r *ListRepository) GetAll(userID string) []Item {
-	var items []Item
+func (r *ListRepository) GetAll(userID string) (items []Item) {
 	iter := r.C.Find(bson.M{"user_id": userID}).Iter()
 	result := Item{}
 	for iter.Next(&result) {
 		items = append(items, result)
 	}
-	return items
+	return
 }
 
 // Delete item

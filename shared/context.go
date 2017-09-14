@@ -1,4 +1,4 @@
-package config
+package shared
 
 import (
 	pb "github.com/wizelineacademy/GoWorkshop/proto/list"

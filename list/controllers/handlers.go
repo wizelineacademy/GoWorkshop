@@ -1,11 +1,12 @@
 package controllers
 
 import (
+	"log"
+
 	"github.com/wizelineacademy/GoWorkshop/list/models"
 	pb "github.com/wizelineacademy/GoWorkshop/proto/list"
-	"github.com/wizelineacademy/GoWorkshop/shared/config"
+	"github.com/wizelineacademy/GoWorkshop/shared"
 	"golang.org/x/net/context"
-	"log"
 )
 
 // Service struct
@@ -18,7 +19,7 @@ func (s *Service) CreateItem(ctx context.Context, in *pb.CreateItemRequest) (res
 		UserId:  in.UserId,
 	}
 
-	appContext := config.NewContext()
+	appContext := shared.NewContext()
 	defer appContext.Close()
 
 	c := appContext.DbCollection("list")
@@ -41,12 +42,12 @@ func (s *Service) CreateItem(ctx context.Context, in *pb.CreateItemRequest) (res
 		response.Code = 500
 	}
 
-	return response, err
+	return
 }
 
 // GetUserItems implementation
 func (s *Service) GetUserItems(ctx context.Context, in *pb.GetUserItemsRequest) (response *pb.GetUserItemsResponse, err error) {
-	appContext := config.NewContext()
+	appContext := shared.NewContext()
 	defer appContext.Close()
 
 	c := appContext.DbCollection("list")
@@ -68,12 +69,12 @@ func (s *Service) GetUserItems(ctx context.Context, in *pb.GetUserItemsRequest) 
 		Code:  200,
 	}
 
-	return response, err
+	return
 }
 
 // DeleteItem implementation
 func (s *Service) DeleteItem(ctx context.Context, in *pb.DeleteItemRequest) (response *pb.DeleteItemResponse, err error) {
-	appContext := config.NewContext()
+	appContext := shared.NewContext()
 	defer appContext.Close()
 
 	c := appContext.DbCollection("list")
@@ -96,5 +97,5 @@ func (s *Service) DeleteItem(ctx context.Context, in *pb.DeleteItemRequest) (res
 		}
 	}
 
-	return response, err
+	return
 }

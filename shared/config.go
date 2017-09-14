@@ -1,4 +1,4 @@
-package config
+package shared
 
 import (
 	"encoding/json"
@@ -20,7 +20,7 @@ func Init() {
 
 type (
 	configuration struct {
-		Server, ListService, UsersService, NotifierService, MongoDBHost, DBUser, DBPwd, Database string
+		Server, ListService, UsersService, NotifierService, MongoDBHost, DBUser, DBPwd, Database, SmtpHost, SmtpPort, SmtpUser, SmtpPass string
 	}
 )
 
@@ -33,7 +33,7 @@ var listService pb.ListClient
 
 // Initialize AppConfig
 func initConfig() {
-	file, err := os.Open("../shared/config/config.json")
+	file, err := os.Open("../shared/config.json")
 	defer file.Close()
 	if err != nil {
 		log.Fatalf("[loadConfig]: %s\n", err)
