@@ -1,0 +1,61 @@
+hash: 008dff495a61d988e765d28098fa851516c34a62f202e9898b52417ef698b803
+updated: 2017-09-14T08:25:06.528112449+07:00
+imports:
+- name: github.com/gocraft/web
+  version: 0973dfd3866277297f7caed311af67cc4ca1126e
+- name: github.com/golang/protobuf
+  version: 17ce1425424ab154092bbb43af630bd647f3bb0d
+  subpackages:
+  - proto
+  - ptypes
+  - ptypes/any
+  - ptypes/duration
+  - ptypes/timestamp
+- name: github.com/gorilla/context
+  version: 1ea25387ff6f684839d82767c1733ff4d4d15d0a
+- name: github.com/wizelineacademy/GoWorkshop
+  version: efbe0b60846aeea8999f785af05e082ad63d7a35
+  subpackages:
+  - proto/list
+  - proto/users
+  - web/pkg/tpl
+  - web/pkg/web
+- name: golang.org/x/net
+  version: 859d1a86bb617c0c20d154590c3c5d3fcb670b07
+  subpackages:
+  - context
+  - http2
+  - http2/hpack
+  - idna
+  - internal/timeseries
+  - lex/httplex
+  - trace
+- name: golang.org/x/text
+  version: acd49d43e9b95df46670431bf5c7ae59586daad8
+  subpackages:
+  - secure/bidirule
+  - transform
+  - unicode/bidi
+  - unicode/norm
+- name: google.golang.org/genproto
+  version: 595979c8a7bf586b2d293fb42246bf91a0b893d9
+  subpackages:
+  - googleapis/rpc/status
+- name: google.golang.org/grpc
+  version: f92cdcd7dcdc69e81b2d7b338479a19a8723cfa3
+  subpackages:
+  - codes
+  - connectivity
+  - credentials
+  - grpclb/grpc_lb_v1/messages
+  - grpclog
+  - internal
+  - keepalive
+  - metadata
+  - naming
+  - peer
+  - stats
+  - status
+  - tap
+  - transport
+testImports: []

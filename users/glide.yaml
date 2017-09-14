@@ -1,0 +1,13 @@
+package: github.com/wizelineacademy/GoWorkshop/users
+import:
+- package: golang.org/x/net
+  subpackages:
+  - context
+- package: google.golang.org/grpc
+  version: v1.6.0
+- package: gopkg.in/mgo.v2
+  subpackages:
+  - bson
+- package: github.com/golang/protobuf
+  subpackages:
+  - proto
