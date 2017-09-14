@@ -55,8 +55,9 @@ Client is built with Go and located in `web`, working on [http://127.0.0.1:3000]
 
 Service Docker containers generate these files for you, so it isn't necessary to run it locally, however here is instruction for Golang:
 
+ - Install [Go](https://golang.org/dl/)
  - Install [Protocol Buffers](https://github.com/google/protobuf/releases)
- - Install go plugin: `go get github.com/golang/protobuf/protoc-gen-go`
+ - Install protoc plugin: `go get github.com/golang/protobuf/proto github.com/golang/protobuf/protoc-gen-go`
 
 ```
 protoc --go_out=plugins=grpc:. proto/users/service.proto

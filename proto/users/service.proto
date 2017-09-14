@@ -7,7 +7,7 @@ service Users {
 }
 
 message CreateUserRequest {
-	string email = 2;
+	string email = 1;
 }
 
 message CreateUserResponse {

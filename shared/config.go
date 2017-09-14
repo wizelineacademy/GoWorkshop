@@ -6,9 +6,9 @@ import (
 	"os"
 	"time"
 
-	mgo "gopkg.in/mgo.v2"
+	"gopkg.in/mgo.v2"
 
-	pb "github.com/wizelineacademy/GoWorkshop/proto/list"
+	pbList "github.com/wizelineacademy/GoWorkshop/proto/list"
 	"google.golang.org/grpc"
 )
 
@@ -20,16 +20,16 @@ func Init() {
 
 type (
 	configuration struct {
-		Server, ListService, UsersService, NotifierService, MongoDBHost, DBUser, DBPwd, Database, SmtpHost, SmtpPort, SmtpUser, SmtpPass string
+		Server, ListService, UsersService, NotifierService, MongoDBHost, DBUser, DBPwd, Database, SMTPHost, SMTPPort, SMTPUser, SMTPPass string
 	}
 )
 
-// AppConfig var
-var AppConfig configuration
-
-var mongoSession *mgo.Session
-
-var listService pb.ListClient
+var (
+	// AppConfig var
+	AppConfig    configuration
+	mongoSession *mgo.Session
+	listService  pbList.ListClient
+)
 
 // Initialize AppConfig
 func initConfig() {
@@ -54,11 +54,11 @@ func initServices() {
 		log.Printf("cannot connect to list service: %v", err)
 	}
 
-	listService = pb.NewListClient(conn)
+	listService = pbList.NewListClient(conn)
 }
 
 // GetListService func
-func GetListService() pb.ListClient {
+func GetListService() pbList.ListClient {
 	return listService
 }
 

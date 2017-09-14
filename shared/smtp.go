@@ -7,10 +7,10 @@ import (
 // SendEmail helper
 func SendEmail(to string, body string) error {
 	auth := smtp.PlainAuth("",
-		AppConfig.SmtpUser,
-		AppConfig.SmtpPass,
-		AppConfig.SmtpHost,
+		AppConfig.SMTPUser,
+		AppConfig.SMTPPass,
+		AppConfig.SMTPHost,
 	)
 
-	return smtp.SendMail(AppConfig.SmtpHost+":"+AppConfig.SmtpPort, auth, AppConfig.SmtpUser, []string{to}, []byte(body))
+	return smtp.SendMail(AppConfig.SMTPHost+":"+AppConfig.SMTPPort, auth, AppConfig.SMTPUser, []string{to}, []byte(body))
 }

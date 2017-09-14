@@ -7,8 +7,8 @@
   "MongoDBUser"     : "",
   "MongoDBPwd"      : "",
   "Database"        : "todo",
-  "SmtpHost"        : "smtp.gmail.com",
-  "SmtpPort"        : "587",
-  "GmailUser"       : "",
-  "GmailPass"       : ""
+  "SMTPHost"        : "smtp.gmail.com",
+  "SMTPPort"        : "587",
+  "SMTPUser"        : "",
+  "SMTPPass"        : ""
 }
