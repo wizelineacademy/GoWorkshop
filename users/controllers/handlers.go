@@ -4,6 +4,7 @@ import (
 	"log"
 
 	pbList "github.com/wizelineacademy/GoWorkshop/proto/list"
+	pbNotifier "github.com/wizelineacademy/GoWorkshop/proto/notifier"
 	pb "github.com/wizelineacademy/GoWorkshop/proto/users"
 	"github.com/wizelineacademy/GoWorkshop/shared"
 	"github.com/wizelineacademy/GoWorkshop/users/models"
@@ -34,6 +35,7 @@ func (s *Service) CreateUser(ctx context.Context, in *pb.CreateUserRequest) (res
 		log.Printf("[user.Create] New user ID: %s", userID)
 
 		createInitialItem(appContext, userID)
+		notify(appContext, in.Email)
 
 		response.Message = "User created successfully"
 		response.Id = userID
@@ -54,5 +56,14 @@ func createInitialItem(appContext *shared.Context, userID string) {
 	})
 	if listErr != nil {
 		log.Printf("[user.Create] Cannot create item: %v", listErr)
+	}
+}
+
+func notify(appContext *shared.Context, email string) {
+	_, err := appContext.NotifierService.NewUser(context.Background(), &pbNotifier.NewUserRequest{
+		Email: email,
+	})
+	if err != nil {
+		log.Printf("[user.Create] Cannot notify: %v", err)
 	}
 }

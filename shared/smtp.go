@@ -4,7 +4,6 @@ import (
 	"net/smtp"
 )
 
-// SendEmail helper
 func SendEmail(to string, body string) error {
 	auth := smtp.PlainAuth("",
 		AppConfig.SMTPUser,

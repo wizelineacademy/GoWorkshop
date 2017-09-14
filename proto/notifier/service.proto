@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package notifier;
+
+service Notifier {
+	rpc NewUser(NewUserRequest) returns (NewUserResponse) {}
+}
+
+message NewUserRequest {
+	string email = 1;
+}
+
+message NewUserResponse {
+	string message = 1;
+	uint64 code = 2;
+}

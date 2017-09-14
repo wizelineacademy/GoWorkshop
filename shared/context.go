@@ -2,13 +2,15 @@ package shared
 
 import (
 	pb "github.com/wizelineacademy/GoWorkshop/proto/list"
+	pb2 "github.com/wizelineacademy/GoWorkshop/proto/notifier"
 	"gopkg.in/mgo.v2"
 )
 
 // Struct used for maintaining HTTP Request Context
 type Context struct {
-	MongoSession *mgo.Session
-	ListService  pb.ListClient
+	MongoSession   *mgo.Session
+	ListClient     pb.ListClient
+	NotifierClient pb2.NotifierClient
 }
 
 // Close mgo.Session
@@ -25,8 +27,9 @@ func (c *Context) DbCollection(name string) *mgo.Collection {
 func NewContext() *Context {
 	session := GetSession().Copy()
 	context := &Context{
-		MongoSession: session,
-		ListService:  GetListService(),
+		MongoSession:   session,
+		ListClient:     GetListClient(),
+		NotifierClient: GetNotifierClient(),
 	}
 	return context
 }

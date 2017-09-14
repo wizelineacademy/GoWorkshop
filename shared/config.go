@@ -9,6 +9,7 @@ import (
 	"gopkg.in/mgo.v2"
 
 	pbList "github.com/wizelineacademy/GoWorkshop/proto/list"
+	pbNotifier "github.com/wizelineacademy/GoWorkshop/proto/notifier"
 	"google.golang.org/grpc"
 )
 
@@ -26,9 +27,10 @@ type (
 
 var (
 	// AppConfig var
-	AppConfig    configuration
-	mongoSession *mgo.Session
-	listService  pbList.ListClient
+	AppConfig      configuration
+	mongoSession   *mgo.Session
+	listClient     pbList.ListClient
+	notifierClient pbNotifier.NotifierClient
 )
 
 // Initialize AppConfig
@@ -48,18 +50,20 @@ func initConfig() {
 
 // Initialize connection to other services
 func initServices() {
-	// Set up a connection to the gRPC server.
-	conn, err := grpc.Dial(AppConfig.ListService, grpc.WithInsecure())
-	if err != nil {
-		log.Printf("cannot connect to list service: %v", err)
-	}
+	connList, _ := grpc.Dial(AppConfig.ListService, grpc.WithInsecure())
+	listClient = pbList.NewListClient(connList)
 
-	listService = pbList.NewListClient(conn)
+	connNotifier, _ := grpc.Dial(AppConfig.NotifierService, grpc.WithInsecure())
+	notifierClient = pbNotifier.NewNotifierClient(connNotifier)
 }
 
-// GetListService func
-func GetListService() pbList.ListClient {
-	return listService
+func GetListClient() pbList.ListClient {
+	return listClient
+}
+
+// GetNotifierClient func
+func GetNotifierClient() pbNotifier.NotifierClient {
+	return notifierClient
 }
 
 // GetSession returns database mongoSession

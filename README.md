@@ -31,8 +31,6 @@ New service needs separate folder, can be copied from `users` or `list` and modi
 
 ![diagram2](https://github.com/wizelineacademy/GoWorkshop/raw/master/diagram2.png)
 
-Service should be also added to `docker-compose.yml` and work on port 50002 (`ports` option in this file). Use `docker-compose build notifier` to build service image.
-
 ### Requirements
 
  - Install [Docker](https://www.docker.com/get-docker)
