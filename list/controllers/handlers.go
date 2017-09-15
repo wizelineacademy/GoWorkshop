@@ -4,30 +4,23 @@ import (
 	"log"
 
 	"github.com/wizelineacademy/GoWorkshop/list/models"
-	pb "github.com/wizelineacademy/GoWorkshop/proto/list"
+	"github.com/wizelineacademy/GoWorkshop/proto/list"
 	"github.com/wizelineacademy/GoWorkshop/shared"
 	"golang.org/x/net/context"
 )
 
-// Service struct
 type Service struct{}
 
-// CreateItem implementation
-func (s *Service) CreateItem(ctx context.Context, in *pb.CreateItemRequest) (response *pb.CreateItemResponse, err error) {
-	item := &models.Item{
+func (s *Service) CreateItem(ctx context.Context, in *list.CreateItemRequest) (*list.CreateItemResponse, error) {
+	c := shared.DbCollection("list")
+	repo := &models.ListRepository{c}
+
+	itemID, err := repo.Create(&models.Item{
 		Message: in.Message,
 		UserId:  in.UserId,
-	}
+	})
 
-	c := shared.DbCollection("list")
-	repo := &models.ListRepository{
-		C: c,
-	}
-
-	var itemID string
-	itemID, err = repo.Create(item)
-
-	response = new(pb.CreateItemResponse)
+	response := new(list.CreateItemResponse)
 	if err == nil {
 		log.Printf("[item.Create] New item ID: %s", itemID)
 
@@ -39,54 +32,45 @@ func (s *Service) CreateItem(ctx context.Context, in *pb.CreateItemRequest) (res
 		response.Code = 500
 	}
 
-	return
+	return response, err
 }
 
-// GetUserItems implementation
-func (s *Service) GetUserItems(ctx context.Context, in *pb.GetUserItemsRequest) (response *pb.GetUserItemsResponse, err error) {
+func (s *Service) GetUserItems(ctx context.Context, in *list.GetUserItemsRequest) (*list.GetUserItemsResponse, error) {
 	c := shared.DbCollection("list")
-	repo := &models.ListRepository{
-		C: c,
-	}
+	repo := &models.ListRepository{c}
 	items := repo.GetAll(in.UserId)
 
-	pbItems := []*pb.Item{}
+	pbItems := []*list.Item{}
 	for _, item := range items {
-		pbItems = append(pbItems, &pb.Item{
+		pbItems = append(pbItems, &list.Item{
 			Id:      item.Id.Hex(),
 			Message: item.Message,
 			UserId:  item.UserId,
 		})
 	}
-	response = &pb.GetUserItemsResponse{
+	response := &list.GetUserItemsResponse{
 		Items: pbItems,
 		Code:  200,
 	}
 
-	return
+	return response, nil
 }
 
-// DeleteItem implementation
-func (s *Service) DeleteItem(ctx context.Context, in *pb.DeleteItemRequest) (response *pb.DeleteItemResponse, err error) {
+func (s *Service) DeleteItem(ctx context.Context, in *list.DeleteItemRequest) (*list.DeleteItemResponse, error) {
 	c := shared.DbCollection("list")
-	repo := &models.ListRepository{
-		C: c,
-	}
-	err = repo.Delete(in.Id)
+	repo := &models.ListRepository{c}
+	err := repo.Delete(in.Id)
 
+	response := new(list.DeleteItemResponse)
 	if err == nil {
 		log.Printf("[item.Delete] Deleted item ID: %s", in.Id)
 
-		response = &pb.DeleteItemResponse{
-			Message: "Item deleted successfully",
-			Code:    200,
-		}
+		response.Message = "Item deleted successfully"
+		response.Code = 200
 	} else {
-		response = &pb.DeleteItemResponse{
-			Message: err.Error(),
-			Code:    500,
-		}
+		response.Message = err.Error()
+		response.Code = 500
 	}
 
-	return
+	return response, err
 }

@@ -3,31 +3,25 @@ package controllers
 import (
 	"log"
 
-	pbList "github.com/wizelineacademy/GoWorkshop/proto/list"
-	pbNotifier "github.com/wizelineacademy/GoWorkshop/proto/notifier"
-	pb "github.com/wizelineacademy/GoWorkshop/proto/users"
+	"github.com/wizelineacademy/GoWorkshop/proto/list"
+	"github.com/wizelineacademy/GoWorkshop/proto/notifier"
+	"github.com/wizelineacademy/GoWorkshop/proto/users"
 	"github.com/wizelineacademy/GoWorkshop/shared"
 	"github.com/wizelineacademy/GoWorkshop/users/models"
 	"golang.org/x/net/context"
 )
 
-// Service struct
 type Service struct{}
 
-// CreateUser implementation
-func (s *Service) CreateUser(ctx context.Context, in *pb.CreateUserRequest) (response *pb.CreateUserResponse, err error) {
-	user := &models.User{
-		Email: in.Email,
-	}
-
+func (s *Service) CreateUser(ctx context.Context, in *users.CreateUserRequest) (*users.CreateUserResponse, error) {
 	c := shared.DbCollection("users")
-	repo := &models.UserRepository{
-		C: c,
-	}
-	var userID string
-	userID, err = repo.Create(user)
+	repo := &models.UserRepository{c}
 
-	response = new(pb.CreateUserResponse)
+	userID, err := repo.Create(&models.User{
+		Email: in.Email,
+	})
+
+	response := new(users.CreateUserResponse)
 	if err == nil {
 		log.Printf("[user.Create] New user ID: %s", userID)
 
@@ -42,22 +36,22 @@ func (s *Service) CreateUser(ctx context.Context, in *pb.CreateUserRequest) (res
 		response.Code = 500
 	}
 
-	return
+	return response, err
 }
 
 // Create initial item in todo list
 func createInitialItem(userID string) {
-	_, listErr := shared.ListClient.CreateItem(context.Background(), &pbList.CreateItemRequest{
+	_, err := shared.ListClient.CreateItem(context.Background(), &list.CreateItemRequest{
 		Message: "Welcome to Workshop!",
 		UserId:  userID,
 	})
-	if listErr != nil {
-		log.Printf("[user.Create] Cannot create item: %v", listErr)
+	if err != nil {
+		log.Printf("[user.Create] Cannot create item: %v", err)
 	}
 }
 
 func notify(email string) {
-	_, err := shared.NotifierClient.NewUser(context.Background(), &pbNotifier.NewUserRequest{
+	_, err := shared.NotifierClient.NewUser(context.Background(), &notifier.NewUserRequest{
 		Email: email,
 	})
 	if err != nil {
