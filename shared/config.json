@@ -7,8 +7,8 @@
   "MongoDBUser"     : "",
   "MongoDBPwd"      : "",
   "Database"        : "todo",
-  "SMTPHost"        : "smtp.gmail.com",
+  "SMTPHost"        : "smtp.sendgrid.net",
   "SMTPPort"        : "587",
-  "SMTPUser"        : "",
-  "SMTPPass"        : ""
+  "SMTPUser"        : "apikey",
+  "SMTPPass"        : "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"
 }
