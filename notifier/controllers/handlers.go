@@ -11,11 +11,12 @@ import (
 type Service struct{}
 
 func (s *Service) NewUser(ctx context.Context, in *notifier.NewUserRequest) (*notifier.NewUserResponse, error) {
-	err := shared.SendEmail(in.Email, "Welcome to Wizeline Golang Workshop!")
+	log.Printf("Sending email to %s...\n", in.Email)
+
+	err := shared.SendEmail(in.Email, "Wizeline - Microservices with Go", "Welcome to Wizeline Go Workshop! https://github.com/wizelineacademy/GoWorkshop")
+
 	if err != nil {
 		log.Println(err.Error())
-	} else {
-		log.Printf("NewUser email sent to %s\n", in.Email)
 	}
 
 	return &notifier.NewUserResponse{

@@ -26,7 +26,7 @@ func (s *Service) CreateUser(ctx context.Context, in *users.CreateUserRequest) (
 		log.Printf("[user.Create] New user ID: %s", userID)
 
 		createInitialItem(userID)
-		notify(in.Email)
+		go notify(in.Email)
 
 		response.Message = "User created successfully"
 		response.Id = userID

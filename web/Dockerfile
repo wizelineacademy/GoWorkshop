@@ -6,10 +6,7 @@ ADD proto $PKG_PATH/proto
 ADD web $PKG_PATH/web
 WORKDIR $PKG_PATH/web
 
-RUN go get github.com/gocraft/web
-RUN go get github.com/gorilla/context
-RUN go get google.golang.org/grpc
-RUN go get golang.org/x/net/context
+RUN go get github.com/gocraft/web github.com/gorilla/context google.golang.org/grpc golang.org/x/net/context
 
 RUN go install
 
