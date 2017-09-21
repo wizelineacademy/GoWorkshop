@@ -18,12 +18,6 @@ The application consists of the following application services:
 
 Client web application is working on [http://127.0.0.1:3000](http://127.0.0.1:3000).
 
-#### Tips
-
-New service needs separate folder, can be copied from `users` or `list` and modified later. The best place to start is to define a service using [proto3 language](https://developers.google.com/protocol-buffers/docs/proto3), in `proto/notifier/service.proto`. Then implement handlers in `notifier/controllers/handlers.go`.
-
-`shared` package already have a function `SendEmail` to send email by SMTP. All you need is to fill `shared/config.json` file with SMTP settings (`GmailUser`, `GmailPass`).
-
 ![diagram2](https://github.com/wizelineacademy/GoWorkshop/raw/master/diagram2.png)
 
 ### Requirements
