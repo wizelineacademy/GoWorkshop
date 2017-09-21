@@ -14,14 +14,9 @@ The application consists of the following application services:
 |----------|-------|-------------------------------|--------------------------------------|
 | users    | 50000 | Provides users information    | CreateUser                           |
 | list     | 50001 | Manages items in todo lists   | CreateItem, GetUserItems, DeleteItem |
-| notifier | 50002 | Send email notifications      | Will be implemented during Workshop  |
+| notifier | 50002 | Send email notifications      | NewUser                              |
 
 Client web application is working on [http://127.0.0.1:3000](http://127.0.0.1:3000).
-
-### Workshop task
-
- - Create `notifier` service.
- - Call `notifier` from `users` service to send simple notification to user's email address after account is created by `CreateUser` procedure.
 
 #### Tips
 
