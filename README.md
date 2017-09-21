@@ -40,7 +40,6 @@ Client is built with Go and located in `web`, working on [http://127.0.0.1:3000]
 
 ### Generate source code for the gRPC client from .proto files
 
-
  - Install [Go](https://golang.org/dl/)
  - Install [Protocol Buffers](https://github.com/google/protobuf/releases)
  - Install protoc plugin: `go get github.com/golang/protobuf/proto github.com/golang/protobuf/protoc-gen-go`
