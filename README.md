@@ -1,8 +1,8 @@
 ![diagram](https://github.com/wizelineacademy/GoWorkshop/raw/master/diagram.png)
 
-### "ToDo List" experiment project
+### "TODO List" experiment project
 
-This repository is an example project which demonstrates the use of microservices for a fictional ToDo list application. The ToDo backend is powered by 3 microservices, all of which happen to be written in Go, using MongoDB for manage the database and Docker to isolate and deploy the ecosystem.
+This repository is an example project which demonstrates the use of microservices for a fictional TODO list application. The TODO backend is powered by 3 microservices, all of which happen to be written in Go, using MongoDB for manage the database and Docker to isolate and deploy the ecosystem.
 
 In real world each service should live in a separate repository, so teams can work separately and don't overlap each other, however in this demo project they just located in separate folders for easy use.
 
