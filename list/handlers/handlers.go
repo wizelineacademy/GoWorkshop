@@ -35,20 +35,10 @@ func (s *Service) CreateItem(ctx context.Context, in *list.CreateItemRequest) (*
 }
 
 func (s *Service) GetUserItems(ctx context.Context, in *list.GetUserItemsRequest) (*list.GetUserItemsResponse, error) {
-	c := shared.DbCollection("list")
-	repo := &shared.ListRepository{c}
-	items := repo.GetAll(in.UserId)
+	items := getUserItems(in.UserId)
 
-	pbItems := []*list.Item{}
-	for _, item := range items {
-		pbItems = append(pbItems, &list.Item{
-			Id:      item.Id.Hex(),
-			Message: item.Message,
-			UserId:  item.UserId,
-		})
-	}
 	response := &list.GetUserItemsResponse{
-		Items: pbItems,
+		Items: items,
 		Code:  200,
 	}
 
@@ -72,4 +62,21 @@ func (s *Service) DeleteItem(ctx context.Context, in *list.DeleteItemRequest) (*
 	}
 
 	return response, err
+}
+
+func getUserItems(userID string) []*list.Item {
+	c := shared.DbCollection("list")
+	repo := &shared.ListRepository{c}
+	docs := repo.GetAll(userID)
+
+	items := []*list.Item{}
+	for _, item := range docs {
+		items = append(items, &list.Item{
+			Id:      item.Id.Hex(),
+			Message: item.Message,
+			UserId:  item.UserId,
+		})
+	}
+
+	return items
 }
