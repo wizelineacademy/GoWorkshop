@@ -26,6 +26,7 @@ func (s *Service) CreateUser(ctx context.Context, in *users.CreateUserRequest) (
 		log.Printf("[user.Create] New user ID: %s", userID)
 
 		createInitialItem(userID)
+		// Asynchronous call
 		go notify(in.Email)
 
 		response.Message = "User created successfully"
@@ -51,7 +52,7 @@ func createInitialItem(userID string) {
 }
 
 func notify(email string) {
-	_, err := shared.NotifierClient.NewUser(context.Background(), &notifier.NewUserRequest{
+	_, err := shared.NotifierClient.Email(context.Background(), &notifier.EmailRequest{
 		Email: email,
 	})
 	if err != nil {

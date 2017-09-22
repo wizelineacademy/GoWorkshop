@@ -8,8 +8,8 @@ It is generated from these files:
 	proto/notifier/service.proto
 
 It has these top-level messages:
-	NewUserRequest
-	NewUserResponse
+	EmailRequest
+	EmailResponse
 */
 package notifier
 
@@ -33,40 +33,40 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.ProtoPackageIsVersion2 // please upgrade the proto package
 
-type NewUserRequest struct {
+type EmailRequest struct {
 	Email string `protobuf:"bytes,1,opt,name=email" json:"email,omitempty"`
 }
 
-func (m *NewUserRequest) Reset()                    { *m = NewUserRequest{} }
-func (m *NewUserRequest) String() string            { return proto.CompactTextString(m) }
-func (*NewUserRequest) ProtoMessage()               {}
-func (*NewUserRequest) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{0} }
+func (m *EmailRequest) Reset()                    { *m = EmailRequest{} }
+func (m *EmailRequest) String() string            { return proto.CompactTextString(m) }
+func (*EmailRequest) ProtoMessage()               {}
+func (*EmailRequest) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{0} }
 
-func (m *NewUserRequest) GetEmail() string {
+func (m *EmailRequest) GetEmail() string {
 	if m != nil {
 		return m.Email
 	}
 	return ""
 }
 
-type NewUserResponse struct {
+type EmailResponse struct {
 	Message string `protobuf:"bytes,1,opt,name=message" json:"message,omitempty"`
 	Code    uint64 `protobuf:"varint,2,opt,name=code" json:"code,omitempty"`
 }
 
-func (m *NewUserResponse) Reset()                    { *m = NewUserResponse{} }
-func (m *NewUserResponse) String() string            { return proto.CompactTextString(m) }
-func (*NewUserResponse) ProtoMessage()               {}
-func (*NewUserResponse) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{1} }
+func (m *EmailResponse) Reset()                    { *m = EmailResponse{} }
+func (m *EmailResponse) String() string            { return proto.CompactTextString(m) }
+func (*EmailResponse) ProtoMessage()               {}
+func (*EmailResponse) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{1} }
 
-func (m *NewUserResponse) GetMessage() string {
+func (m *EmailResponse) GetMessage() string {
 	if m != nil {
 		return m.Message
 	}
 	return ""
 }
 
-func (m *NewUserResponse) GetCode() uint64 {
+func (m *EmailResponse) GetCode() uint64 {
 	if m != nil {
 		return m.Code
 	}
@@ -74,8 +74,8 @@ func (m *NewUserResponse) GetCode() uint64 {
 }
 
 func init() {
-	proto.RegisterType((*NewUserRequest)(nil), "notifier.NewUserRequest")
-	proto.RegisterType((*NewUserResponse)(nil), "notifier.NewUserResponse")
+	proto.RegisterType((*EmailRequest)(nil), "notifier.EmailRequest")
+	proto.RegisterType((*EmailResponse)(nil), "notifier.EmailResponse")
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -89,7 +89,7 @@ const _ = grpc.SupportPackageIsVersion4
 // Client API for Notifier service
 
 type NotifierClient interface {
-	NewUser(ctx context.Context, in *NewUserRequest, opts ...grpc.CallOption) (*NewUserResponse, error)
+	Email(ctx context.Context, in *EmailRequest, opts ...grpc.CallOption) (*EmailResponse, error)
 }
 
 type notifierClient struct {
@@ -100,9 +100,9 @@ func NewNotifierClient(cc *grpc.ClientConn) NotifierClient {
 	return &notifierClient{cc}
 }
 
-func (c *notifierClient) NewUser(ctx context.Context, in *NewUserRequest, opts ...grpc.CallOption) (*NewUserResponse, error) {
-	out := new(NewUserResponse)
-	err := grpc.Invoke(ctx, "/notifier.Notifier/NewUser", in, out, c.cc, opts...)
+func (c *notifierClient) Email(ctx context.Context, in *EmailRequest, opts ...grpc.CallOption) (*EmailResponse, error) {
+	out := new(EmailResponse)
+	err := grpc.Invoke(ctx, "/notifier.Notifier/Email", in, out, c.cc, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -112,27 +112,27 @@ func (c *notifierClient) NewUser(ctx context.Context, in *NewUserRequest, opts .
 // Server API for Notifier service
 
 type NotifierServer interface {
-	NewUser(context.Context, *NewUserRequest) (*NewUserResponse, error)
+	Email(context.Context, *EmailRequest) (*EmailResponse, error)
 }
 
 func RegisterNotifierServer(s *grpc.Server, srv NotifierServer) {
 	s.RegisterService(&_Notifier_serviceDesc, srv)
 }
 
-func _Notifier_NewUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(NewUserRequest)
+func _Notifier_Email_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(EmailRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(NotifierServer).NewUser(ctx, in)
+		return srv.(NotifierServer).Email(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/notifier.Notifier/NewUser",
+		FullMethod: "/notifier.Notifier/Email",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(NotifierServer).NewUser(ctx, req.(*NewUserRequest))
+		return srv.(NotifierServer).Email(ctx, req.(*EmailRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -142,8 +142,8 @@ var _Notifier_serviceDesc = grpc.ServiceDesc{
 	HandlerType: (*NotifierServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "NewUser",
-			Handler:    _Notifier_NewUser_Handler,
+			MethodName: "Email",
+			Handler:    _Notifier_Email_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
@@ -153,16 +153,16 @@ var _Notifier_serviceDesc = grpc.ServiceDesc{
 func init() { proto.RegisterFile("proto/notifier/service.proto", fileDescriptor0) }
 
 var fileDescriptor0 = []byte{
-	// 169 bytes of a gzipped FileDescriptorProto
+	// 165 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0x92, 0x29, 0x28, 0xca, 0x2f,
 	0xc9, 0xd7, 0xcf, 0xcb, 0x2f, 0xc9, 0x4c, 0xcb, 0x4c, 0x2d, 0xd2, 0x2f, 0x4e, 0x2d, 0x2a, 0xcb,
-	0x4c, 0x4e, 0xd5, 0x03, 0x0b, 0x0b, 0x71, 0xc0, 0xc4, 0x95, 0xd4, 0xb8, 0xf8, 0xfc, 0x52, 0xcb,
-	0x43, 0x8b, 0x53, 0x8b, 0x82, 0x52, 0x0b, 0x4b, 0x53, 0x8b, 0x4b, 0x84, 0x44, 0xb8, 0x58, 0x53,
-	0x73, 0x13, 0x33, 0x73, 0x24, 0x18, 0x15, 0x18, 0x35, 0x38, 0x83, 0x20, 0x1c, 0x25, 0x7b, 0x2e,
-	0x7e, 0xb8, 0xba, 0xe2, 0x82, 0xfc, 0xbc, 0xe2, 0x54, 0x21, 0x09, 0x2e, 0xf6, 0xdc, 0xd4, 0xe2,
-	0xe2, 0xc4, 0xf4, 0x54, 0xa8, 0x52, 0x18, 0x57, 0x48, 0x88, 0x8b, 0x25, 0x39, 0x3f, 0x25, 0x55,
-	0x82, 0x49, 0x81, 0x51, 0x83, 0x25, 0x08, 0xcc, 0x36, 0xf2, 0xe1, 0xe2, 0xf0, 0x83, 0x5a, 0x2a,
-	0xe4, 0xc0, 0xc5, 0x0e, 0x35, 0x4c, 0x48, 0x42, 0x0f, 0xe6, 0x14, 0x3d, 0x54, 0x77, 0x48, 0x49,
-	0x62, 0x91, 0x81, 0xd8, 0xac, 0xc4, 0x90, 0xc4, 0x06, 0xf6, 0x87, 0x31, 0x20, 0x00, 0x00, 0xff,
-	0xff, 0xef, 0x07, 0x09, 0x1f, 0xe7, 0x00, 0x00, 0x00,
+	0x4c, 0x4e, 0xd5, 0x03, 0x0b, 0x0b, 0x71, 0xc0, 0xc4, 0x95, 0x54, 0xb8, 0x78, 0x5c, 0x73, 0x13,
+	0x33, 0x73, 0x82, 0x52, 0x0b, 0x4b, 0x53, 0x8b, 0x4b, 0x84, 0x44, 0xb8, 0x58, 0x53, 0x41, 0x7c,
+	0x09, 0x46, 0x05, 0x46, 0x0d, 0xce, 0x20, 0x08, 0x47, 0xc9, 0x96, 0x8b, 0x17, 0xaa, 0xaa, 0xb8,
+	0x20, 0x3f, 0xaf, 0x38, 0x55, 0x48, 0x82, 0x8b, 0x3d, 0x37, 0xb5, 0xb8, 0x38, 0x31, 0x3d, 0x15,
+	0xaa, 0x10, 0xc6, 0x15, 0x12, 0xe2, 0x62, 0x49, 0xce, 0x4f, 0x49, 0x95, 0x60, 0x52, 0x60, 0xd4,
+	0x60, 0x09, 0x02, 0xb3, 0x8d, 0xdc, 0xb8, 0x38, 0xfc, 0xa0, 0x16, 0x0a, 0x59, 0x71, 0xb1, 0x82,
+	0x8d, 0x12, 0x12, 0xd3, 0x83, 0x39, 0x42, 0x0f, 0xd9, 0x05, 0x52, 0xe2, 0x18, 0xe2, 0x10, 0x3b,
+	0x95, 0x18, 0x92, 0xd8, 0xc0, 0xae, 0x37, 0x06, 0x04, 0x00, 0x00, 0xff, 0xff, 0x7d, 0xe0, 0xe4,
+	0xb6, 0xdd, 0x00, 0x00, 0x00,
 }

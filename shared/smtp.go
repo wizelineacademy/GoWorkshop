@@ -7,9 +7,10 @@ import (
 )
 
 func SendEmail(to string, subject string, body string) error {
+	pass, _ := base64.StdEncoding.DecodeString(AppConfig.SMTPPass)
 	auth := smtp.PlainAuth("",
 		AppConfig.SMTPUser,
-		AppConfig.SMTPPass,
+		string(pass),
 		AppConfig.SMTPHost,
 	)
 

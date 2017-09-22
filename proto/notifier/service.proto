@@ -3,14 +3,14 @@ syntax = "proto3";
 package notifier;
 
 service Notifier {
-	rpc NewUser(NewUserRequest) returns (NewUserResponse) {}
+	rpc Email(EmailRequest) returns (EmailResponse) {}
 }
 
-message NewUserRequest {
+message EmailRequest {
 	string email = 1;
 }
 
-message NewUserResponse {
+message EmailResponse {
 	string message = 1;
 	uint64 code = 2;
 }
