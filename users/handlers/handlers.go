@@ -1,4 +1,4 @@
-package controllers
+package handlers
 
 import (
 	"log"
@@ -7,7 +7,6 @@ import (
 	"github.com/wizelineacademy/GoWorkshop/proto/notifier"
 	"github.com/wizelineacademy/GoWorkshop/proto/users"
 	"github.com/wizelineacademy/GoWorkshop/shared"
-	"github.com/wizelineacademy/GoWorkshop/users/models"
 	"golang.org/x/net/context"
 )
 
@@ -15,9 +14,9 @@ type Service struct{}
 
 func (s *Service) CreateUser(ctx context.Context, in *users.CreateUserRequest) (*users.CreateUserResponse, error) {
 	c := shared.DbCollection("users")
-	repo := &models.UserRepository{c}
+	repo := &shared.UserRepository{c}
 
-	userID, err := repo.Create(&models.User{
+	userID, err := repo.Create(&shared.User{
 		Email: in.Email,
 	})
 

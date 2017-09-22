@@ -1,9 +1,8 @@
-package controllers
+package handlers
 
 import (
 	"log"
 
-	"github.com/wizelineacademy/GoWorkshop/list/models"
 	"github.com/wizelineacademy/GoWorkshop/proto/list"
 	"github.com/wizelineacademy/GoWorkshop/shared"
 	"golang.org/x/net/context"
@@ -13,9 +12,9 @@ type Service struct{}
 
 func (s *Service) CreateItem(ctx context.Context, in *list.CreateItemRequest) (*list.CreateItemResponse, error) {
 	c := shared.DbCollection("list")
-	repo := &models.ListRepository{c}
+	repo := &shared.ListRepository{c}
 
-	itemID, err := repo.Create(&models.Item{
+	itemID, err := repo.Create(&shared.Item{
 		Message: in.Message,
 		UserId:  in.UserId,
 	})
@@ -37,7 +36,7 @@ func (s *Service) CreateItem(ctx context.Context, in *list.CreateItemRequest) (*
 
 func (s *Service) GetUserItems(ctx context.Context, in *list.GetUserItemsRequest) (*list.GetUserItemsResponse, error) {
 	c := shared.DbCollection("list")
-	repo := &models.ListRepository{c}
+	repo := &shared.ListRepository{c}
 	items := repo.GetAll(in.UserId)
 
 	pbItems := []*list.Item{}
@@ -58,7 +57,7 @@ func (s *Service) GetUserItems(ctx context.Context, in *list.GetUserItemsRequest
 
 func (s *Service) DeleteItem(ctx context.Context, in *list.DeleteItemRequest) (*list.DeleteItemResponse, error) {
 	c := shared.DbCollection("list")
-	repo := &models.ListRepository{c}
+	repo := &shared.ListRepository{c}
 	err := repo.Delete(in.Id)
 
 	response := new(list.DeleteItemResponse)
