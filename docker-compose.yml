@@ -18,32 +18,21 @@ services:
       - "50001:8080"
 
   users:
-    # build:
-    #   context: .
-    #   args:
-    #     SRV_NAME: users
+    build:
+      context: .
+      args:
+        SRV_NAME: users
     image: pltvs/todo-users
     container_name: todo-users
     entrypoint: /go/bin/users
     depends_on:
       - db
-      - notifier
     links:
       - db
-      - notifier
     ports:
       - "50000:8080"
 
-  notifier:
-    # build:
-    #   context: .
-    #   args:
-    #     SRV_NAME: notifier
-    image: pltvs/todo-notifier
-    container_name: todo-notifier
-    entrypoint: /go/bin/notifier
-    ports:
-      - "50002:8080"
+  # TODO: notifer service
 
   web:
     # build:

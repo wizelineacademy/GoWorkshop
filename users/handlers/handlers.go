@@ -4,7 +4,6 @@ import (
 	"log"
 
 	"github.com/wizelineacademy/GoWorkshop/proto/list"
-	"github.com/wizelineacademy/GoWorkshop/proto/notifier"
 	"github.com/wizelineacademy/GoWorkshop/proto/users"
 	"github.com/wizelineacademy/GoWorkshop/shared"
 	"golang.org/x/net/context"
@@ -24,8 +23,8 @@ func (s *Service) CreateUser(ctx context.Context, in *users.CreateUserRequest) (
 		log.Printf("[user.Create] New user ID: %s", userID)
 
 		createInitialItem(userID)
-		// Asynchronous call
-		go notify(in.Email)
+
+		// TODO: send email to user when it's created.
 
 		response.Message = "User created successfully"
 		response.Id = userID
@@ -46,14 +45,5 @@ func createInitialItem(userID string) {
 	})
 	if err != nil {
 		log.Printf("[user.Create] Cannot create item: %v", err)
-	}
-}
-
-func notify(email string) {
-	_, err := shared.NotifierClient.Email(context.Background(), &notifier.EmailRequest{
-		Email: email,
-	})
-	if err != nil {
-		log.Printf("[user.Create] Cannot notify: %v", err)
 	}
 }
