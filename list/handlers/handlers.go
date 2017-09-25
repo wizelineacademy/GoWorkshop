@@ -11,13 +11,7 @@ import (
 type Service struct{}
 
 func (s *Service) CreateItem(ctx context.Context, in *list.CreateItemRequest) (*list.CreateItemResponse, error) {
-	c := shared.DbCollection("list")
-	repo := &shared.ListRepository{c}
-
-	itemID, err := repo.Create(&shared.Item{
-		Message: in.Message,
-		UserId:  in.UserId,
-	})
+	itemID, err := shared.CreateItem(in.Message, in.UserId)
 
 	response := new(list.CreateItemResponse)
 	if err == nil {
@@ -46,9 +40,7 @@ func (s *Service) GetUserItems(ctx context.Context, in *list.GetUserItemsRequest
 }
 
 func (s *Service) DeleteItem(ctx context.Context, in *list.DeleteItemRequest) (*list.DeleteItemResponse, error) {
-	c := shared.DbCollection("list")
-	repo := &shared.ListRepository{c}
-	err := repo.Delete(in.Id)
+	err := shared.DeleteItem(in.Id)
 
 	response := new(list.DeleteItemResponse)
 	if err == nil {
@@ -65,9 +57,7 @@ func (s *Service) DeleteItem(ctx context.Context, in *list.DeleteItemRequest) (*
 }
 
 func getUserItems(userID string) []*list.Item {
-	c := shared.DbCollection("list")
-	repo := &shared.ListRepository{c}
-	docs := repo.GetAll(userID)
+	docs := shared.GetUserItems(userID)
 
 	items := []*list.Item{}
 	for _, item := range docs {

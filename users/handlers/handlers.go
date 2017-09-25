@@ -12,11 +12,7 @@ import (
 type Service struct{}
 
 func (s *Service) CreateUser(ctx context.Context, in *users.CreateUserRequest) (*users.CreateUserResponse, error) {
-	c := shared.DbCollection("users")
-	repo := &shared.UserRepository{c}
-	userID, err := repo.Create(&shared.User{
-		Email: in.Email,
-	})
+	userID, err := shared.CreateUser(in.Email)
 
 	response := new(users.CreateUserResponse)
 	if err == nil {

@@ -27,6 +27,40 @@ type (
 	}
 )
 
+// CreateUser func
+func CreateUser(email string) (string, error) {
+	c := DbCollection("users")
+	repo := &UserRepository{c}
+	return repo.Create(&User{
+		Email: email,
+	})
+}
+
+// CreateItem func
+func CreateItem(message string, userID string) (string, error) {
+	c := DbCollection("list")
+	repo := &ListRepository{c}
+
+	return repo.Create(&Item{
+		Message: message,
+		UserId:  userID,
+	})
+}
+
+// DeleteItem func
+func DeleteItem(itemID string) error {
+	c := DbCollection("list")
+	repo := &ListRepository{c}
+	return repo.Delete(itemID)
+}
+
+// GetUserItems func
+func GetUserItems(userID string) []Item {
+	c := DbCollection("list")
+	repo := &ListRepository{c}
+	return repo.GetAll(userID)
+}
+
 // Create user
 func (r *UserRepository) Create(user *User) (string, error) {
 	objID := bson.NewObjectId()

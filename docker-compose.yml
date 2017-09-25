@@ -1,10 +1,10 @@
 version: '3'
 services:
   list:
-    # build:
-    #   context: .
-    #   args:
-    #     SRV_NAME: list
+    build:
+      context: .
+      args:
+        SRV_NAME: list
     image: pltvs/todo-list
     container_name: todo-list
     entrypoint: /go/bin/list
@@ -35,9 +35,9 @@ services:
   # TODO: notifer service
 
   web:
-    # build:
-    #   context: .
-    #   dockerfile: web/Dockerfile
+    build:
+      context: .
+      dockerfile: web/Dockerfile
     image: pltvs/todo-web
     container_name: todo-web
     depends_on:
@@ -49,7 +49,7 @@ services:
       - list
       - users
     ports:
-      - "3000:8080"
+      - "3030:8080"
 
   db:
     image: mongo:3.3

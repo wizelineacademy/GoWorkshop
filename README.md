@@ -16,7 +16,7 @@ The application consists of the following application services:
 | list     | 50001 | Manages items in todo lists   | CreateItem, GetUserItems, DeleteItem |
 | notifier | 50002 | Send email notifications      | NewUser                              |
 
-Client web application is working on [http://127.0.0.1:3000](http://127.0.0.1:3000).
+Client web application is working on [http://127.0.0.1:3030](http://127.0.0.1:3030).
 
 ![diagram2](https://github.com/wizelineacademy/GoWorkshop/raw/master/diagram2.png)
 
@@ -40,11 +40,7 @@ docker-compose pull
 docker-compose up
 ```
 
-Go to [http://127.0.0.1:3000](http://127.0.0.1:3000) to test gRPC from webapp.
-
-### Client
-
-Client is built with Go and located in `web`, working on [http://127.0.0.1:3000](http://127.0.0.1:3000).
+Go to [http://127.0.0.1:3030](http://127.0.0.1:3030) to test gRPC from webapp.
 
 ### Generate source code for the gRPC client from .proto files
 
