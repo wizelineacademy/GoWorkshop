@@ -24,7 +24,7 @@ Client web application is working on [http://127.0.0.1:3030](http://127.0.0.1:30
 
  - Create `notifier` service, can be copied from `users` or `list` and modified.
  - Add `notifier` do `docker-compose.yml`, also add it to `users`'s options: `depends_on`, `links`.
- - Implement `Email` handler in `notifier/handlers/handlers.go`. Use `shared` package, it's already has a function `SendEmail` to send email by SMTP.
+ - Implement server in `notifier/server/server.go`. Use `shared` package, it's already has a function `SendEmail` to send email by SMTP.
  - Call `notifier` from `users` service to send simple notification to user's email address after account is created by `CreateUser` procedure.
  - Run `docker-compose build notifier users` to build new images.
 

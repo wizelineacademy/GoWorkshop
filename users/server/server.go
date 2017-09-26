@@ -1,4 +1,4 @@
-package handlers
+package server
 
 import (
 	"log"
@@ -9,9 +9,9 @@ import (
 	"golang.org/x/net/context"
 )
 
-type Service struct{}
+type Server struct{}
 
-func (s *Service) CreateUser(ctx context.Context, in *users.CreateUserRequest) (*users.CreateUserResponse, error) {
+func (s *Server) CreateUser(ctx context.Context, in *users.CreateUserRequest) (*users.CreateUserResponse, error) {
 	userID, err := shared.CreateUser(in.Email)
 
 	response := new(users.CreateUserResponse)

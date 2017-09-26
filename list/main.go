@@ -4,7 +4,7 @@ import (
 	"log"
 	"net"
 
-	"github.com/wizelineacademy/GoWorkshop/list/handlers"
+	"github.com/wizelineacademy/GoWorkshop/list/server"
 	"github.com/wizelineacademy/GoWorkshop/proto/list"
 	"github.com/wizelineacademy/GoWorkshop/shared"
 	"google.golang.org/grpc"
@@ -17,6 +17,6 @@ func main() {
 	shared.Init()
 
 	srv := grpc.NewServer()
-	list.RegisterListServer(srv, &handlers.Service{})
+	list.RegisterListServer(srv, &server.Server{})
 	srv.Serve(listener)
 }

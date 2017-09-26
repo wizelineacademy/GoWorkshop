@@ -1,4 +1,4 @@
-package handlers
+package server
 
 import (
 	"log"
@@ -8,9 +8,9 @@ import (
 	"golang.org/x/net/context"
 )
 
-type Service struct{}
+type Server struct{}
 
-func (s *Service) CreateItem(ctx context.Context, in *list.CreateItemRequest) (*list.CreateItemResponse, error) {
+func (s *Server) CreateItem(ctx context.Context, in *list.CreateItemRequest) (*list.CreateItemResponse, error) {
 	itemID, err := shared.CreateItem(in.Message, in.UserId)
 
 	response := new(list.CreateItemResponse)
@@ -28,7 +28,7 @@ func (s *Service) CreateItem(ctx context.Context, in *list.CreateItemRequest) (*
 	return response, err
 }
 
-func (s *Service) GetUserItems(ctx context.Context, in *list.GetUserItemsRequest) (*list.GetUserItemsResponse, error) {
+func (s *Server) GetUserItems(ctx context.Context, in *list.GetUserItemsRequest) (*list.GetUserItemsResponse, error) {
 	items := getUserItems(in.UserId)
 
 	response := &list.GetUserItemsResponse{
@@ -39,7 +39,7 @@ func (s *Service) GetUserItems(ctx context.Context, in *list.GetUserItemsRequest
 	return response, nil
 }
 
-func (s *Service) DeleteItem(ctx context.Context, in *list.DeleteItemRequest) (*list.DeleteItemResponse, error) {
+func (s *Server) DeleteItem(ctx context.Context, in *list.DeleteItemRequest) (*list.DeleteItemResponse, error) {
 	err := shared.DeleteItem(in.Id)
 
 	response := new(list.DeleteItemResponse)

@@ -6,7 +6,7 @@ import (
 
 	"github.com/wizelineacademy/GoWorkshop/proto/users"
 	"github.com/wizelineacademy/GoWorkshop/shared"
-	"github.com/wizelineacademy/GoWorkshop/users/handlers"
+	"github.com/wizelineacademy/GoWorkshop/users/server"
 	"google.golang.org/grpc"
 )
 
@@ -17,6 +17,6 @@ func main() {
 	shared.Init()
 
 	srv := grpc.NewServer()
-	users.RegisterUsersServer(srv, &handlers.Service{})
+	users.RegisterUsersServer(srv, &server.Server{})
 	srv.Serve(listener)
 }
