@@ -32,7 +32,15 @@ services:
     ports:
       - "50000:8080"
 
-  # TODO: notifer service, can be copied and modified from `users`
+  notifier:
+    build:
+      context: .
+      args:
+        SRV_NAME: notifier
+    container_name: todo-notifier
+    entrypoint: /go/bin/notifier
+    ports:
+      - "50002:8080"
 
   web:
     build:
