@@ -10,10 +10,8 @@ services:
     entrypoint: /go/bin/list
     depends_on:
       - db
-      - users
     links:
       - db
-      - users
     ports:
       - "50001:8080"
 
@@ -26,13 +24,15 @@ services:
     container_name: todo-users
     entrypoint: /go/bin/users
     depends_on:
+      - list
       - db
     links:
+      - list
       - db
     ports:
       - "50000:8080"
 
-  # TODO: notifer service
+  # TODO: notifer service, can be copied and modified from `users`
 
   web:
     build:
@@ -41,11 +41,9 @@ services:
     image: pltvs/todo-web
     container_name: todo-web
     depends_on:
-      - db
       - list
       - users
     links:
-      - db
       - list
       - users
     ports:
