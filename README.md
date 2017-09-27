@@ -1,4 +1,4 @@
-![diagram](https://github.com/wizelineacademy/GoWorkshop/raw/master/diagram.png)
+![diagram](http://drive.google.com/uc?export=view&id=0B4XdNdo_XoQDTTRBSEtta3N3YTQ)
 
 ### "TODO List" experiment project
 
@@ -18,7 +18,7 @@ The application consists of the following application services:
 
 Client web application is working on [http://127.0.0.1:3030](http://127.0.0.1:3030).
 
-![diagram2](https://github.com/wizelineacademy/GoWorkshop/raw/master/diagram2.png)
+![diagram2](http://drive.google.com/uc?export=view&id=0B4XdNdo_XoQDQ2ZRQl9fb1lZejg)
 
 ### Workshop task
 
