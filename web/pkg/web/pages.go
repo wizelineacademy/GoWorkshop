@@ -80,7 +80,7 @@ func (c *Context) createUser(w web.ResponseWriter, r *web.Request) {
 	resp, err := c.UsersService.CreateUser(context.Background(), &pbUsers.CreateUserRequest{
 		Email: email,
 	})
-	if err == nil && resp != nil && resp.Code == 200 {
+	if err == nil && resp != nil && resp.Code == http.StatusCreated {
 		http.Redirect(w, r.Request, "/user/"+resp.GetId(), http.StatusFound)
 		return
 	}
