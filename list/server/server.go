@@ -2,6 +2,7 @@ package server
 
 import (
 	"log"
+	"net/http"
 
 	"github.com/wizelineacademy/GoWorkshop/proto/list"
 	"github.com/wizelineacademy/GoWorkshop/shared"
@@ -19,10 +20,10 @@ func (s *Server) CreateItem(ctx context.Context, in *list.CreateItemRequest) (*l
 
 		response.Id = itemID
 		response.Message = "Item created successfully"
-		response.Code = 200
+		response.Code = http.StatusCreated
 	} else {
 		response.Message = err.Error()
-		response.Code = 500
+		response.Code = http.StatusInternalServerError
 	}
 
 	return response, err
@@ -33,7 +34,7 @@ func (s *Server) GetUserItems(ctx context.Context, in *list.GetUserItemsRequest)
 
 	response := &list.GetUserItemsResponse{
 		Items: items,
-		Code:  200,
+		Code:  http.StatusOK,
 	}
 
 	return response, nil
@@ -47,10 +48,10 @@ func (s *Server) DeleteItem(ctx context.Context, in *list.DeleteItemRequest) (*l
 		log.Printf("[item.Delete] Deleted item ID: %s", in.Id)
 
 		response.Message = "Item deleted successfully"
-		response.Code = 200
+		response.Code = http.StatusOK
 	} else {
 		response.Message = err.Error()
-		response.Code = 500
+		response.Code = http.StatusInternalServerError
 	}
 
 	return response, err
