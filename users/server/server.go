@@ -2,6 +2,7 @@ package server
 
 import (
 	"log"
+	"net/http"
 
 	"github.com/wizelineacademy/GoWorkshop/proto/list"
 	"github.com/wizelineacademy/GoWorkshop/proto/notifier"
@@ -24,10 +25,10 @@ func (s *Server) CreateUser(ctx context.Context, in *users.CreateUserRequest) (*
 
 		response.Message = "User created successfully"
 		response.Id = userID
-		response.Code = 200
+		response.Code = http.StatusCreated
 	} else {
 		response.Message = err.Error()
-		response.Code = 500
+		response.Code = http.StatusInternalServerError
 	}
 
 	return response, err
