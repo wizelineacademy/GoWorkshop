@@ -46,12 +46,10 @@ func createInitialItem(userID string) {
 		return
 	}
 
-	_, err = list.NewListClient(conn).CreateItem(context.Background(), &list.CreateItemRequest{
+	if _, err = list.NewListClient(conn).CreateItem(context.Background(), &list.CreateItemRequest{
 		Message: "Welcome to Workshop!",
 		UserId:  userID,
-	})
-
-	if err != nil {
+	}); err != nil {
 		log.WithError(err).Error("unable to create initial item")
 	}
 }

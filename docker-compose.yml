@@ -23,6 +23,7 @@ services:
     environment:
      - "MONGO_HOST=db"
      - "SRV_LIST_ADDR=list:8080"
+     - "SRV_NOTIFIER_ADDR=notifier:8080"
     image: pltvs/todo-users
     container_name: todo-users
     entrypoint: /go/bin/users
