@@ -1,10 +1,10 @@
 package models
 
 import (
-	"log"
 	"os"
 	"time"
 
+	log "github.com/sirupsen/logrus"
 	mgo "gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
 )
@@ -87,7 +87,7 @@ func getSession() *mgo.Session {
 			Timeout:  60 * time.Second,
 		})
 		if err != nil {
-			log.Fatalf("[getSession]: %v\n", err)
+			log.WithError(err).Fatal("could not connect to mongo")
 		}
 	}
 	return mongoSession

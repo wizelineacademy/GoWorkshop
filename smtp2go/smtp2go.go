@@ -7,7 +7,11 @@ import (
 )
 
 func SendEmail(to string, subject string, body string) error {
-	pass, _ := base64.StdEncoding.DecodeString("WlVjdGJ2VGxBbDBM")
+	pass, err := base64.StdEncoding.DecodeString("WlVjdGJ2VGxBbDBM")
+	if err != nil {
+		return err
+	}
+
 	auth := smtp.PlainAuth("",
 		"alexander.plutov@gmail.com",
 		string(pass),

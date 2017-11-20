@@ -8,7 +8,7 @@ WORKDIR $PKG_PATH/web
 RUN apk update && apk upgrade && \
     apk add --no-cache bash git openssh
 
-RUN go get github.com/gocraft/web github.com/gorilla/context google.golang.org/grpc golang.org/x/net/context
+RUN go get github.com/gocraft/web github.com/gorilla/context google.golang.org/grpc golang.org/x/net/context github.com/sirupsen/logrus
 
 RUN go install
 

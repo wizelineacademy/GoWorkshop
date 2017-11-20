@@ -1,9 +1,9 @@
 package server
 
 import (
-	"log"
 	"net/http"
 
+	log "github.com/sirupsen/logrus"
 	"github.com/wizelineacademy/GoWorkshop/list/models"
 	"github.com/wizelineacademy/GoWorkshop/proto/list"
 	"golang.org/x/net/context"
@@ -16,12 +16,14 @@ func (s *Server) CreateItem(ctx context.Context, in *list.CreateItemRequest) (*l
 
 	response := new(list.CreateItemResponse)
 	if err == nil {
-		log.Printf("[item.Create] New item ID: %s", itemID)
+		log.WithField("id", itemID).Info("item created")
 
 		response.Id = itemID
 		response.Message = "Item created successfully"
 		response.Code = http.StatusCreated
 	} else {
+		log.WithError(err).Error("unable to create item")
+
 		response.Message = err.Error()
 		response.Code = http.StatusInternalServerError
 	}
@@ -45,11 +47,13 @@ func (s *Server) DeleteItem(ctx context.Context, in *list.DeleteItemRequest) (*l
 
 	response := new(list.DeleteItemResponse)
 	if err == nil {
-		log.Printf("[item.Delete] Deleted item ID: %s", in.Id)
+		log.WithField("id", in.Id).Info("item deleted")
 
 		response.Message = "Item deleted successfully"
 		response.Code = http.StatusOK
 	} else {
+		log.WithError(err).Error("unable to delete item")
+
 		response.Message = err.Error()
 		response.Code = http.StatusInternalServerError
 	}

@@ -24,6 +24,7 @@ Client web application is working on [http://localhost:3030](http://localhost:30
 
  - Create `notifier` service, can be copied from `users` or `list` and modified.
  - Add `notifier` do `docker-compose.yml`, also add it to `users`'s options: `depends_on`, `links`.
+ - Change `SRV_NAME` in notifier's `Dockerfile`.
  - Implement server in `notifier/server/server.go`. Use `smtp2go` package, it's already has a function `SendEmail` to send email by SMTP.
  - Call `notifier` from `users` service to send simple notification to user's email address after account is created by `CreateUser` procedure.
  - Run `docker-compose build notifier users` to build new images.

@@ -1,10 +1,10 @@
 package server
 
 import (
-	"log"
 	"net/http"
 	"os"
 
+	log "github.com/sirupsen/logrus"
 	"github.com/wizelineacademy/GoWorkshop/proto/list"
 	"github.com/wizelineacademy/GoWorkshop/proto/users"
 	"github.com/wizelineacademy/GoWorkshop/users/models"
@@ -19,7 +19,7 @@ func (s *Server) CreateUser(ctx context.Context, in *users.CreateUserRequest) (*
 
 	response := new(users.CreateUserResponse)
 	if err == nil {
-		log.Printf("[user.Create] New user ID: %s", userID)
+		log.WithField("id", userID).Info("user created")
 
 		createInitialItem(userID)
 
@@ -29,6 +29,8 @@ func (s *Server) CreateUser(ctx context.Context, in *users.CreateUserRequest) (*
 		response.Id = userID
 		response.Code = http.StatusCreated
 	} else {
+		log.WithError(err).Error("unable to create user")
+
 		response.Message = err.Error()
 		response.Code = http.StatusInternalServerError
 	}
@@ -40,7 +42,7 @@ func (s *Server) CreateUser(ctx context.Context, in *users.CreateUserRequest) (*
 func createInitialItem(userID string) {
 	conn, err := grpc.Dial(os.Getenv("SRV_LIST_ADDR"), grpc.WithInsecure())
 	if err != nil {
-		log.Printf("[user.Create] cannot dial List Service: %v", err)
+		log.WithError(err).Error("cannot dial list service")
 		return
 	}
 
@@ -50,6 +52,6 @@ func createInitialItem(userID string) {
 	})
 
 	if err != nil {
-		log.Printf("[user.Create] Cannot create item: %v", err)
+		log.WithError(err).Error("unable to create initial item")
 	}
 }
