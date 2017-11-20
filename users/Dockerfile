@@ -1,7 +1,6 @@
 FROM golang:1.9-alpine
 
-# users|list|notifier
-ARG SRV_NAME
+ENV SRV_NAME users
 
 ENV PKG_PATH /go/src/github.com/wizelineacademy/GoWorkshop
 

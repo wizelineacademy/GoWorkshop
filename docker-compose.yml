@@ -3,8 +3,7 @@ services:
   list:
     build:
       context: .
-      args:
-        SRV_NAME: list
+      dockerfile: list/Dockerfile
     environment:
      - "MONGO_HOST=db"
     image: pltvs/todo-list
@@ -20,8 +19,7 @@ services:
   users:
     build:
       context: .
-      args:
-        SRV_NAME: users
+      dockerfile: users/Dockerfile
     environment:
      - "MONGO_HOST=db"
      - "SRV_LIST_ADDR=list:8080"
