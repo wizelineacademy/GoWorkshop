@@ -1,8 +1,8 @@
 package server
 
 import (
+	"github.com/wizelineacademy/GoWorkshop/notifier/smtp2go"
 	"github.com/wizelineacademy/GoWorkshop/proto/notifier"
-	"github.com/wizelineacademy/GoWorkshop/smtp2go"
 	"golang.org/x/net/context"
 )
 
