@@ -1,4 +1,4 @@
-package shared
+package smtp2go
 
 import (
 	"encoding/base64"
@@ -7,15 +7,15 @@ import (
 )
 
 func SendEmail(to string, subject string, body string) error {
-	pass, _ := base64.StdEncoding.DecodeString(AppConfig.SMTPPass)
+	pass, _ := base64.StdEncoding.DecodeString("WlVjdGJ2VGxBbDBM")
 	auth := smtp.PlainAuth("",
-		AppConfig.SMTPUser,
+		"alexander.plutov@gmail.com",
 		string(pass),
-		AppConfig.SMTPHost,
+		"mail.smtp2go.com",
 	)
 
 	header := make(map[string]string)
-	header["From"] = AppConfig.SMTPUser
+	header["From"] = "alexander.plutov@gmail.com"
 	header["To"] = to
 	header["Subject"] = subject
 	header["MIME-Version"] = "1.0"
@@ -28,5 +28,5 @@ func SendEmail(to string, subject string, body string) error {
 	}
 	message += "\r\n" + base64.StdEncoding.EncodeToString([]byte(body))
 
-	return smtp.SendMail(AppConfig.SMTPHost+":"+AppConfig.SMTPPort, auth, AppConfig.SMTPUser, []string{to}, []byte(message))
+	return smtp.SendMail("mail.smtp2go.com:587", auth, "alexander.plutov@gmail.com", []string{to}, []byte(message))
 }

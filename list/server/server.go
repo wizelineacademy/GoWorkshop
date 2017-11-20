@@ -4,15 +4,15 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/wizelineacademy/GoWorkshop/list/models"
 	"github.com/wizelineacademy/GoWorkshop/proto/list"
-	"github.com/wizelineacademy/GoWorkshop/shared"
 	"golang.org/x/net/context"
 )
 
 type Server struct{}
 
 func (s *Server) CreateItem(ctx context.Context, in *list.CreateItemRequest) (*list.CreateItemResponse, error) {
-	itemID, err := shared.CreateItem(in.Message, in.UserId)
+	itemID, err := models.CreateItem(in.Message, in.UserId)
 
 	response := new(list.CreateItemResponse)
 	if err == nil {
@@ -41,7 +41,7 @@ func (s *Server) GetUserItems(ctx context.Context, in *list.GetUserItemsRequest)
 }
 
 func (s *Server) DeleteItem(ctx context.Context, in *list.DeleteItemRequest) (*list.DeleteItemResponse, error) {
-	err := shared.DeleteItem(in.Id)
+	err := models.DeleteItem(in.Id)
 
 	response := new(list.DeleteItemResponse)
 	if err == nil {
@@ -58,7 +58,7 @@ func (s *Server) DeleteItem(ctx context.Context, in *list.DeleteItemRequest) (*l
 }
 
 func getUserItems(userID string) []*list.Item {
-	docs := shared.GetUserItems(userID)
+	docs := models.GetUserItems(userID)
 
 	items := []*list.Item{}
 	for _, item := range docs {
