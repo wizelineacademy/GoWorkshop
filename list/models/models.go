@@ -1,20 +1,15 @@
-package shared
+package models
 
 import (
+	"os"
+	"time"
+
+	log "github.com/sirupsen/logrus"
 	mgo "gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
 )
 
 type (
-	// User type
-	User struct {
-		Id    bson.ObjectId `bson:"_id,omitempty" json:"id"`
-		Email string        `json:"email"`
-	}
-	// UserRepository type
-	UserRepository struct {
-		C *mgo.Collection
-	}
 	// Item type
 	Item struct {
 		Id      bson.ObjectId `bson:"_id,omitempty" json:"id"`
@@ -27,18 +22,14 @@ type (
 	}
 )
 
-// CreateUser func
-func CreateUser(email string) (string, error) {
-	c := DbCollection("users")
-	repo := &UserRepository{c}
-	return repo.Create(&User{
-		Email: email,
-	})
-}
+var (
+	mongoSession *mgo.Session
+)
 
 // CreateItem func
 func CreateItem(message string, userID string) (string, error) {
-	c := DbCollection("list")
+	c := getSession().Copy().DB("todo").C("list")
+
 	repo := &ListRepository{c}
 
 	return repo.Create(&Item{
@@ -49,24 +40,18 @@ func CreateItem(message string, userID string) (string, error) {
 
 // DeleteItem func
 func DeleteItem(itemID string) error {
-	c := DbCollection("list")
+	c := getSession().Copy().DB("todo").C("list")
+
 	repo := &ListRepository{c}
 	return repo.Delete(itemID)
 }
 
 // GetUserItems func
 func GetUserItems(userID string) []Item {
-	c := DbCollection("list")
+	c := getSession().Copy().DB("todo").C("list")
+
 	repo := &ListRepository{c}
 	return repo.GetAll(userID)
-}
-
-// Create user
-func (r *UserRepository) Create(user *User) (string, error) {
-	objID := bson.NewObjectId()
-	user.Id = objID
-	err := r.C.Insert(&user)
-	return user.Id.Hex(), err
 }
 
 // Create item
@@ -90,4 +75,20 @@ func (r *ListRepository) GetAll(userID string) (items []Item) {
 // Delete item
 func (r *ListRepository) Delete(id string) error {
 	return r.C.Remove(bson.M{"_id": bson.ObjectIdHex(id)})
+}
+
+func getSession() *mgo.Session {
+	if mongoSession == nil {
+		var err error
+		mongoSession, err = mgo.DialWithInfo(&mgo.DialInfo{
+			Addrs:    []string{os.Getenv("MONGO_HOST")},
+			Username: "",
+			Password: "",
+			Timeout:  60 * time.Second,
+		})
+		if err != nil {
+			log.WithError(err).Fatal("could not connect to mongo")
+		}
+	}
+	return mongoSession
 }

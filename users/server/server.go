@@ -1,24 +1,26 @@
 package server
 
 import (
-	"log"
 	"net/http"
+	"os"
 
+	log "github.com/sirupsen/logrus"
 	"github.com/wizelineacademy/GoWorkshop/proto/list"
 	"github.com/wizelineacademy/GoWorkshop/proto/notifier"
 	"github.com/wizelineacademy/GoWorkshop/proto/users"
-	"github.com/wizelineacademy/GoWorkshop/shared"
+	"github.com/wizelineacademy/GoWorkshop/users/models"
 	"golang.org/x/net/context"
+	"google.golang.org/grpc"
 )
 
 type Server struct{}
 
 func (s *Server) CreateUser(ctx context.Context, in *users.CreateUserRequest) (*users.CreateUserResponse, error) {
-	userID, err := shared.CreateUser(in.Email)
+	userID, err := models.CreateUser(in.Email)
 
 	response := new(users.CreateUserResponse)
 	if err == nil {
-		log.Printf("[user.Create] New user ID: %s", userID)
+		log.WithField("id", userID).Info("user created")
 
 		createInitialItem(userID)
 		go notify(in.Email)
@@ -27,6 +29,8 @@ func (s *Server) CreateUser(ctx context.Context, in *users.CreateUserRequest) (*
 		response.Id = userID
 		response.Code = http.StatusCreated
 	} else {
+		log.WithError(err).Error("unable to create user")
+
 		response.Message = err.Error()
 		response.Code = http.StatusInternalServerError
 	}
@@ -36,19 +40,37 @@ func (s *Server) CreateUser(ctx context.Context, in *users.CreateUserRequest) (*
 
 // Call notifier service
 func notify(email string) {
-	_, err := shared.NotifierClient.Email(context.Background(), &notifier.EmailRequest{
+	conn, err := grpc.Dial(os.Getenv("SRV_NOTIFIER_ADDR"), grpc.WithInsecure())
+	if err != nil {
+		log.WithError(err).Error("cannot dial notifier service")
+		return
+	}
+
+	_, err = notifier.NewNotifierClient(conn).Email(context.Background(), &notifier.EmailRequest{
 		Email: email,
 	})
-	log.Printf("[user.Create] Notifying user: %v", err)
+
+	if err != nil {
+		log.WithError(err).Error("unable to notifier user")
+	} else {
+		log.WithField("email", email).Error("user notified")
+	}
 }
 
 // Create initial item in todo list
 func createInitialItem(userID string) {
-	_, err := shared.ListClient.CreateItem(context.Background(), &list.CreateItemRequest{
+	conn, err := grpc.Dial(os.Getenv("SRV_LIST_ADDR"), grpc.WithInsecure())
+	if err != nil {
+		log.WithError(err).Error("cannot dial list service")
+		return
+	}
+
+	_, err = list.NewListClient(conn).CreateItem(context.Background(), &list.CreateItemRequest{
 		Message: "Welcome to Workshop!",
 		UserId:  userID,
 	})
+
 	if err != nil {
-		log.Printf("[user.Create] Cannot create item: %v", err)
+		log.WithError(err).Error("unable to create initial item")
 	}
 }

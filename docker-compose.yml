@@ -3,8 +3,9 @@ services:
   list:
     build:
       context: .
-      args:
-        SRV_NAME: list
+      dockerfile: list/Dockerfile
+    environment:
+     - "MONGO_HOST=db"
     image: pltvs/todo-list
     container_name: todo-list
     entrypoint: /go/bin/list
@@ -18,16 +19,21 @@ services:
   users:
     build:
       context: .
-      args:
-        SRV_NAME: users
+      dockerfile: users/Dockerfile
+    environment:
+     - "MONGO_HOST=db"
+     - "SRV_LIST_ADDR=list:8080"
+     - "SRV_NOTIFIER_ADDR=notifier:8080"
     image: pltvs/todo-users
     container_name: todo-users
     entrypoint: /go/bin/users
     depends_on:
       - list
+      - notifier
       - db
     links:
       - list
+      - notifier
       - db
     ports:
       - "50000:8080"
@@ -35,8 +41,7 @@ services:
   notifier:
     build:
       context: .
-      args:
-        SRV_NAME: notifier
+      dockerfile: notifier/Dockerfile
     container_name: todo-notifier
     entrypoint: /go/bin/notifier
     ports:
@@ -46,6 +51,9 @@ services:
     build:
       context: .
       dockerfile: web/Dockerfile
+    environment:
+     - "SRV_USERS_ADDR=users:8080"
+     - "SRV_LIST_ADDR=list:8080"
     image: pltvs/todo-web
     container_name: todo-web
     depends_on:

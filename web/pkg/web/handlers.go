@@ -1,14 +1,15 @@
 package web
 
 import (
-	"log"
 	"net/http"
+	"os"
 
 	"google.golang.org/grpc"
 
 	"github.com/gocraft/web"
 	"github.com/gorilla/context"
 
+	log "github.com/sirupsen/logrus"
 	pbList "github.com/wizelineacademy/GoWorkshop/proto/list"
 	pbUsers "github.com/wizelineacademy/GoWorkshop/proto/users"
 )
@@ -21,14 +22,14 @@ type Context struct {
 
 // ListenAndServe func
 func ListenAndServe() {
-	connUsers, errUsers := grpc.Dial("users:8080", grpc.WithInsecure())
+	connUsers, errUsers := grpc.Dial(os.Getenv("SRV_USERS_ADDR"), grpc.WithInsecure())
 	if errUsers != nil {
-		log.Fatalf("cannot connect to users service: %v", errUsers)
+		log.WithError(errUsers).Fatal("could not connect to users service")
 	}
 
-	connList, errList := grpc.Dial("list:8080", grpc.WithInsecure())
+	connList, errList := grpc.Dial(os.Getenv("SRV_LIST_ADDR"), grpc.WithInsecure())
 	if errList != nil {
-		log.Fatalf("[web] cannot connect to list service: %v", errList)
+		log.WithError(errList).Fatal("could not connect to list service")
 	}
 
 	ctx := new(Context)
@@ -44,6 +45,7 @@ func ListenAndServe() {
 	serveMux := http.NewServeMux()
 	serveMux.Handle("/", r)
 
-	log.Print("[main] webapp started")
+	log.Info("web service started")
+
 	http.ListenAndServe(":8080", context.ClearHandler(serveMux))
 }
