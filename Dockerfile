@@ -6,7 +6,6 @@ ARG SRV_NAME
 ENV PKG_PATH /go/src/github.com/wizelineacademy/GoWorkshop
 
 ADD proto $PKG_PATH/proto
-ADD shared $PKG_PATH/shared
 ADD $SRV_NAME $PKG_PATH/$SRV_NAME
 WORKDIR $PKG_PATH/$SRV_NAME
 RUN apk update && apk upgrade && \

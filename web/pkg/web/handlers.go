@@ -3,6 +3,7 @@ package web
 import (
 	"log"
 	"net/http"
+	"os"
 
 	"google.golang.org/grpc"
 
@@ -21,12 +22,12 @@ type Context struct {
 
 // ListenAndServe func
 func ListenAndServe() {
-	connUsers, errUsers := grpc.Dial("users:8080", grpc.WithInsecure())
+	connUsers, errUsers := grpc.Dial(os.Getenv("SRV_USERS_ADDR"), grpc.WithInsecure())
 	if errUsers != nil {
 		log.Fatalf("cannot connect to users service: %v", errUsers)
 	}
 
-	connList, errList := grpc.Dial("list:8080", grpc.WithInsecure())
+	connList, errList := grpc.Dial(os.Getenv("SRV_LIST_ADDR"), grpc.WithInsecure())
 	if errList != nil {
 		log.Fatalf("[web] cannot connect to list service: %v", errList)
 	}
