@@ -38,7 +38,7 @@ func (s *Server) CreateUser(ctx context.Context, in *users.CreateUserRequest) (*
 	return response, err
 }
 
-// Create initial item in todo list using list service
+// Create initial item in todo list
 func createInitialItem(userID string) {
 	conn, err := grpc.Dial(os.Getenv("SRV_LIST_ADDR"), grpc.WithInsecure())
 	if err != nil {
