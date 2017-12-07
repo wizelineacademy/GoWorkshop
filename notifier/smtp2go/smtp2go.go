@@ -6,6 +6,7 @@ import (
 	"net/smtp"
 )
 
+// SendEmail : sends email using smtp2go testing SMTP service
 func SendEmail(to string, subject string, body string) error {
 	pass, err := base64.StdEncoding.DecodeString("WlVjdGJ2VGxBbDBM")
 	if err != nil {
