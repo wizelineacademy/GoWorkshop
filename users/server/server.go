@@ -6,6 +6,7 @@ import (
 
 	log "github.com/sirupsen/logrus"
 	"github.com/wizelineacademy/GoWorkshop/proto/list"
+	"github.com/wizelineacademy/GoWorkshop/proto/notifier"
 	"github.com/wizelineacademy/GoWorkshop/proto/users"
 	"github.com/wizelineacademy/GoWorkshop/users/models"
 	"golang.org/x/net/context"
@@ -22,8 +23,7 @@ func (s *Server) CreateUser(ctx context.Context, in *users.CreateUserRequest) (*
 		log.WithField("id", userID).Info("user created")
 
 		createInitialItem(userID)
-
-		// TODO: send email to user when it's created.
+		go notify(in.Email)
 
 		response.Message = "User created successfully"
 		response.Id = userID
@@ -36,6 +36,25 @@ func (s *Server) CreateUser(ctx context.Context, in *users.CreateUserRequest) (*
 	}
 
 	return response, err
+}
+
+// Call notifier service
+func notify(email string) {
+	conn, err := grpc.Dial(os.Getenv("SRV_NOTIFIER_ADDR"), grpc.WithInsecure())
+	if err != nil {
+		log.WithError(err).Error("cannot dial notifier service")
+		return
+	}
+
+	_, err = notifier.NewNotifierClient(conn).Email(context.Background(), &notifier.EmailRequest{
+		Email: email,
+	})
+
+	if err != nil {
+		log.WithError(err).Error("unable to notifier user")
+	} else {
+		log.WithField("email", email).Error("user notified")
+	}
 }
 
 // Create initial item in todo list
