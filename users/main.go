@@ -11,11 +11,12 @@ import (
 
 func main() {
 	listener, err := net.Listen("tcp", ":8080")
-	if err == nil {
-		log.Info("service started on :8080")
-	} else {
-		log.WithError(err).Fatal("could not start service")
+	if err != nil {
+		log.WithError(err).Error("could not start service")
+		return
 	}
+
+	log.Info("starting service on :8080")
 
 	srv := grpc.NewServer()
 	users.RegisterUsersServer(srv, &server.Server{})
